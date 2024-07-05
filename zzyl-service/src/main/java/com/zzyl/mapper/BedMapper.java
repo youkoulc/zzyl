@@ -17,5 +17,12 @@ public interface BedMapper {
      * @return
      */
     int addBed(Bed bed);
+
+    /**
+     * 根据id查询床位
+     * @param id
+     * @return
+     */
+    Bed getBedById(Integer id);
 }
 

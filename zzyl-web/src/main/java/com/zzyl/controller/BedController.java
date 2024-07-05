@@ -30,13 +30,26 @@ public class BedController extends BaseController {
 
     /**
      * 创建床位
+     *
      * @param bedDto
      * @return
      */
     @PostMapping("/create")
     @ApiOperation(value = "创建床位")
-    public ResponseResult creatBed(@RequestBody BedDto bedDto){
+    public ResponseResult creatBed(@RequestBody BedDto bedDto) {
 
         return toAjax(bedService.creatBed(bedDto));
+    }
+
+    /**
+     * 根据id查询床位
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/read/{id}")
+    public ResponseResult<BedVo> readBed(@PathVariable Integer id) {
+        BedVo bedVo = BedService.getBedById(id);
+        return success(bedVo);
     }
 }

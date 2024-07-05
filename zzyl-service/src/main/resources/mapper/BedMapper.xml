@@ -44,4 +44,7 @@
         where b.room_id = #{roomId}
         order by b.sort, b.create_time desc
     </select>
+    <select id="getBedById" resultType="com.zzyl.entity.Bed">
+        select id, bed_number, bed_status, sort, room_id from bed where id=#{id}
+    </select>
 </mapper>

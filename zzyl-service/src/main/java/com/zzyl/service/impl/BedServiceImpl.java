@@ -39,5 +39,16 @@ public class BedServiceImpl implements BedService {
         return bedMapper.addBed(bed);
     }
 
+    /**
+     * 根据id查询床位
+     * @param id
+     * @return
+     */
+    @Override
+    public BedVo getBedById(Integer id) {
+        Bed bed=bedMapper.getBedById(id);
+
+        return BeanUtil.toBean(bed, BedVo.class);
+    }
 }
 
