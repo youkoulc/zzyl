@@ -31,5 +31,12 @@ public interface BedMapper {
      * @return
      */
     void updateBed(Bed bed);
+
+    /**
+     * 删除床位
+     * @param id
+     * @return
+     */
+    void deleteBed(Integer id);
 }
 

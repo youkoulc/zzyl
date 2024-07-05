@@ -63,5 +63,16 @@ public class BedController extends BaseController {
 
         bedService.updateBed(bedDto);
         return success();
+    }
+
+    /**
+     * 删除床位
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseResult deleteBed(@PathVariable Integer id){
+        bedService.deleteBed(id);
+        return success();
     } 
 }

@@ -38,4 +38,11 @@ public interface BedService {
      * @return
      */
     void updateBed(BedDto bedDto);
+
+    /**
+     * 删除床位
+     * @param id
+     * @return
+     */
+    void deleteBed(Integer id);
 }

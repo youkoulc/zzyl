@@ -64,5 +64,15 @@ public class BedServiceImpl implements BedService {
 
         bedMapper.updateBed(bed);
     }
+
+    /**
+     * 删除床位
+     * @param id
+     * @return
+     */
+    @Override
+    public void deleteBed(Integer id) {
+        bedMapper.deleteBed(id);
+    }
 }
 

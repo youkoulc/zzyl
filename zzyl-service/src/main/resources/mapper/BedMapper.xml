@@ -50,6 +50,9 @@
         </set>
         where id=#{id}
     </update>
+    <delete id="deleteBed">
+        delete from bed where id =#{id}
+    </delete>
 
     <select id="getBedsByRoomId" resultMap="BedVoResultMap" parameterType="java.lang.Long">
         select b.*,
