@@ -49,7 +49,19 @@ public class BedController extends BaseController {
      */
     @GetMapping("/read/{id}")
     public ResponseResult<BedVo> readBed(@PathVariable Integer id) {
-        BedVo bedVo = BedService.getBedById(id);
+        BedVo bedVo = bedService.getBedById(id);
         return success(bedVo);
     }
+
+    /**
+     * 更新床位
+     * @param bedDto
+     * @return
+     */
+    @PutMapping("/update")
+    public ResponseResult updateBed(@RequestBody BedDto bedDto){
+
+        bedService.updateBed(bedDto);
+        return success();
+    } 
 }

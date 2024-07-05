@@ -24,5 +24,12 @@ public interface BedMapper {
      * @return
      */
     Bed getBedById(Integer id);
+
+    /**
+     * 更新床位
+     * @param bed
+     * @return
+     */
+    void updateBed(Bed bed);
 }
 

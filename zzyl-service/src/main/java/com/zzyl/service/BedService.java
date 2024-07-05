@@ -31,4 +31,11 @@ public interface BedService {
      * @return
      */
     int creatBed(BedDto bedDto);
+
+    /**
+     * 更新床位
+     * @param bedDto
+     * @return
+     */
+    void updateBed(BedDto bedDto);
 }

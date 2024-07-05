@@ -50,5 +50,19 @@ public class BedServiceImpl implements BedService {
 
         return BeanUtil.toBean(bed, BedVo.class);
     }
+
+    /**
+     * 更新床位
+     * @param bedDto
+     * @return
+     */
+    @Override
+    public void updateBed(BedDto bedDto) {
+        Bed bed = BeanUtil.toBean(bedDto, Bed.class);
+        bed.setUpdateBy(1L);
+        bed.setUpdateTime(LocalDateTime.now());
+
+        bedMapper.updateBed(bed);
+    }
 }
 
