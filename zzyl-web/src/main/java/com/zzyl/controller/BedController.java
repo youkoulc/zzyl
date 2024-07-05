@@ -28,6 +28,11 @@ public class BedController extends BaseController {
         return success(beds);
     }
 
+    /**
+     * 创建床位
+     * @param bedDto
+     * @return
+     */
     @PostMapping("/create")
     @ApiOperation(value = "创建床位")
     public ResponseResult creatBed(@RequestBody BedDto bedDto){
