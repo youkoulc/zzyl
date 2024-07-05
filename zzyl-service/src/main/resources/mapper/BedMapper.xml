@@ -41,11 +41,11 @@
             <if test="bedNumber!=null and bedNumber!=''">bed_number=#{bedNumber},</if>
             <if test="bedStatus!=null">bed_status=#{bedStatus},</if>
             <if test="sort!=null">sort=#{sort},</if>
-            <if test="room_id!=null">room_id=#{roomId},</if>
-            <if test="create_time!=null">create_time=#{createTime},</if>
-            <if test="update_time!=null">update_time=#{updateTime},</if>
-            <if test="create_by!=null">create_by=#{createBy},</if>
-            <if test="update_by!=null">update_by=#{updateBy},</if>
+            <if test="roomId!=null">room_id=#{roomId},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+            <if test="createBy!=null">create_by=#{createBy},</if>
+            <if test="updateBy!=null">update_by=#{updateBy},</if>
             <if test="remark!=null and remark!=''">remark=#{remark}</if>
         </set>
         where id=#{id}
