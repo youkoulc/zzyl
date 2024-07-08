@@ -75,6 +75,7 @@ public class NursingProjectController extends BaseController {
 
     /**
      * 禁用与启用护理项目
+     *
      * @param id
      * @param status
      * @return
@@ -84,7 +85,20 @@ public class NursingProjectController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(value = "护理项目id", name = "id", required = true),
             @ApiImplicitParam(value = "护理项目状态", name = "status", required = true)})
     public ResponseResult switchStatus(@PathVariable Long id, @PathVariable Integer status) {
-        nursingProjectService.switchStatus(id,status);
+        nursingProjectService.switchStatus(id, status);
+        return success();
+    }
+
+
+    /**
+     * 根据id删除当前护理项目
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("根据id删除当前护理项目")
+    public ResponseResult deleteById(@ApiParam("护理项目id") @PathVariable Long id) {
+        nursingProjectService.deleteById(id);
         return success();
     }
 
