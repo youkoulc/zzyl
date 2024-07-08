@@ -1,12 +1,9 @@
 package com.zzyl.mapper;
 
 import com.github.pagehelper.Page;
-import com.zzyl.entity.NursingPlan;
 import com.zzyl.entity.NursingProject;
 import com.zzyl.vo.NursingProjectVo;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 /**
  * @Description NursingProjectMapper
@@ -38,4 +35,10 @@ public interface NursingProjectMapper {
      */
     void update(NursingProject nursingProject);
 
+    /**
+     * 根据id删除当前护理项目
+     * @param id
+     * @return
+     */
+    void deleteById(Long id);
 }

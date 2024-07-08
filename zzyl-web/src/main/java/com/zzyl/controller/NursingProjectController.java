@@ -5,9 +5,7 @@ import com.zzyl.base.ResponseResult;
 import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.service.NursingProjectService;
 import com.zzyl.vo.NursingProjectVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +27,7 @@ public class NursingProjectController extends BaseController {
      */
     @GetMapping
     @ApiOperation("分页查询护理项目列表")
-    public ResponseResult<PageResponse<NursingProjectVo>> getByPage(@ApiParam("护理项目名称") String name,
-                                                                    @ApiParam("当前页码") @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                                                    @ApiParam("每页显示条数") @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-                                                                    @ApiParam("状态：0-禁用，1-启用") Integer status) {
+    public ResponseResult<PageResponse<NursingProjectVo>> getByPage(@ApiParam("护理项目名称") String name, @ApiParam("当前页码") @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @ApiParam("每页显示条数") @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @ApiParam("状态：0-禁用，1-启用") Integer status) {
 
         PageResponse<NursingProjectVo> pageResponse = nursingProjectService.getByPage(name, pageNum, pageSize, status);
         return success(pageResponse);
@@ -46,21 +41,20 @@ public class NursingProjectController extends BaseController {
      */
     @PostMapping
     @ApiOperation("新增护理项目")
-    public ResponseResult add(@ApiParam(value = "护理项目数据传输对象", required = true)
-                              @RequestBody NursingProjectDto nursingProjectDto) {
+    public ResponseResult add(@ApiParam(value = "护理项目数据传输对象", required = true) @RequestBody NursingProjectDto nursingProjectDto) {
         nursingProjectService.add(nursingProjectDto);
         return success();
     }
 
     /**
      * 根据id查询护理项目
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询护理项目")
-    public ResponseResult<NursingProjectVo> getById(@ApiParam(value = "护理项目id", required = true)
-                                                    @PathVariable Long id) {
+    public ResponseResult<NursingProjectVo> getById(@ApiParam(value = "护理项目id", required = true) @PathVariable Long id) {
         NursingProjectVo nursingProjectVo = nursingProjectService.getById(id);
         return success(nursingProjectVo);
     }
@@ -68,15 +62,43 @@ public class NursingProjectController extends BaseController {
 
     /**
      * 修改护理项目
+     *
      * @param nursingProjectDto
      * @return
      */
     @PutMapping
     @ApiOperation("修改护理项目")
-    public ResponseResult update(
-            @ApiParam(value = "护理项目数据传输对象", required = true)
-            @RequestBody NursingProjectDto nursingProjectDto){
+    public ResponseResult update(@ApiParam(value = "护理项目数据传输对象", required = true) @RequestBody NursingProjectDto nursingProjectDto) {
         nursingProjectService.update(nursingProjectDto);
+        return success();
+    }
+
+    /**
+     * 禁用与启用护理项目
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    @PutMapping("/{id}/status/{status}")
+    @ApiOperation("禁用与启用护理项目")
+    @ApiImplicitParams({@ApiImplicitParam(value = "护理项目id", name = "id", required = true),
+            @ApiImplicitParam(value = "护理项目状态", name = "status", required = true)})
+    public ResponseResult switchStatus(@PathVariable Long id, @PathVariable Integer status) {
+        nursingProjectService.switchStatus(id, status);
+        return success();
+    }
+
+
+    /**
+     * 根据id删除当前护理项目
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("根据id删除当前护理项目")
+    public ResponseResult deleteById(@ApiParam("护理项目id") @PathVariable Long id) {
+        nursingProjectService.deleteById(id);
         return success();
     }
 
