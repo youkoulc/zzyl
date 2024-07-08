@@ -2,16 +2,14 @@ package com.zzyl.controller;
 
 import com.zzyl.base.PageResponse;
 import com.zzyl.base.ResponseResult;
+import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.service.NursingProjectService;
 import com.zzyl.vo.NursingProjectVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "护理项目管理")
@@ -21,6 +19,7 @@ public class NursingProjectController extends BaseController {
 
     /**
      * 分页查询护理项目列表
+     *
      * @param name
      * @param pageNum
      * @param pageSize
@@ -34,7 +33,19 @@ public class NursingProjectController extends BaseController {
                                                                     @ApiParam("每页显示条数") @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                                                                     @ApiParam("状态：0-禁用，1-启用") Integer status) {
 
-        PageResponse<NursingProjectVo> pageResponse = nursingProjectService.getByPage(name,pageNum,pageSize,status);
+        PageResponse<NursingProjectVo> pageResponse = nursingProjectService.getByPage(name, pageNum, pageSize, status);
         return success(pageResponse);
+    }
+
+    /**
+     * 新增护理项目
+     * @param nursingProjectDto
+     * @return
+     */
+    @PostMapping
+    @ApiOperation("新增护理项目")
+    public ResponseResult add(@RequestBody NursingProjectDto nursingProjectDto) {
+    nursingProjectService.add(nursingProjectDto);
+        return success();
     }
 }

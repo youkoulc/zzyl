@@ -1,8 +1,10 @@
 package com.zzyl.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zzyl.base.PageResponse;
+import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.entity.NursingProject;
 import com.zzyl.mapper.NursingProjectMapper;
 import com.zzyl.service.NursingProjectService;
@@ -36,5 +38,17 @@ public class NursingProjectServiceImpl implements NursingProjectService {
         PageResponse<NursingProjectVo> pageResponse = new PageResponse(page);
         pageResponse.setRecords(page.getResult());
         return pageResponse;
+    }
+
+    /**
+     * 新增护理项目
+     *
+     * @param nursingProjectDto
+     * @return
+     */
+    @Override
+    public void add(NursingProjectDto nursingProjectDto) {
+        NursingProject nursingProject = BeanUtil.toBean(nursingProjectDto, NursingProject.class);
+        nursingProjectMapper.insert(nursingProject);
     }
 }
