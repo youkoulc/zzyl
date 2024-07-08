@@ -38,5 +38,4 @@ public interface NursingProjectMapper {
      */
     void update(NursingProject nursingProject);
 
-    List<NursingPlan> getNursingPlan();
 }
