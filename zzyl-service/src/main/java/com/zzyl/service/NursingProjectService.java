@@ -41,4 +41,12 @@ public interface NursingProjectService {
      * @return
      */
     void update(NursingProjectDto nursingProjectDto);
+
+    /**
+     * 禁用与启用护理项目
+     * @param id
+     * @param status
+     * @return
+     */
+    void switchStatus(Long id, Integer status);
 }
