@@ -49,11 +49,4 @@ public interface NursingProjectService {
      * @return
      */
     void switchStatus(Long id, Integer status);
-
-    /**
-     * 根据id删除当前护理项目
-     * @param id
-     * @return
-     */
-    void deleteById(Long id);
 }
