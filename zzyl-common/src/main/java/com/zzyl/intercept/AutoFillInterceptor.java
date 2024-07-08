@@ -17,6 +17,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Properties;
 
+/**
+ * @Intercepts: 配置mybatis拦截器注解
+ *     type = Executor.class 拦截sql命令执行器，拦截要执行的sql语句
+ *     method = "update"， 拦截增，删，改的sql命令,以insert / update /delete 等开头的命令
+ *     args = {MappedStatement.class, Object.class} 固定mybatis映射参数数据
+ * 目标：拦截insert / update /delete 等开头sql语句进行拦截处理（补全数据创建人，创建时间，修改人，修改时间）
+ */
+
 @Intercepts({
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
 })
@@ -28,15 +36,23 @@ public class AutoFillInterceptor implements Interceptor {
     private static final String CREATE_TIME = "createTime";
     private static final String UPDATE_TIME = "updateTime";
 
+    /**
+     * intercept方法：拦截的方法
+     * - 在拦截器中，如果是新增方法，则会给参数对象的CREATE_BY、CREATE_TIME、UPDATE_TIME三个字段赋值
+     * - 如果是更新方法，则会给参数对象UPDATE_BY、UPDATE_TIME三个字段赋值
+     * @param invocation
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        Object[] args = invocation.getArgs();
+        Object[] args = invocation.getArgs();// invocation 可以获取mapper执行的方法对象，invocation.getArgs()获取mapper方法参数
         // 获取用于描述SQL语句的映射信息
-        MappedStatement ms = (MappedStatement) args[0];
+        MappedStatement ms = (MappedStatement) args[0];// args[0] 是获取mapper方法绑定的映射sql命令对象信息
         SqlCommandType sqlCommandType = ms.getSqlCommandType();
 
         // 获取sql参数实体 ParamMap
-        Object parameter = args[1];
+        Object parameter = args[1];// args[1]是mapper方法第一个参数（需要补全的实体类对象）
 
         if (parameter != null && sqlCommandType != null) {
             // 获取用户ID
