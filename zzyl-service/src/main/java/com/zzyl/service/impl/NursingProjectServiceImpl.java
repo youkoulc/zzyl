@@ -91,4 +91,15 @@ public class NursingProjectServiceImpl implements NursingProjectService {
         // 更新该项目
         nursingProjectMapper.update(nursingProject);
     }
+
+    /**
+     * 根据id删除当前护理项目
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public void deleteById(Long id) {
+        nursingProjectMapper.deleteById(id);
+    }
 }

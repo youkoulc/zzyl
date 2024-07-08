@@ -34,4 +34,11 @@ public interface NursingProjectMapper {
      * @return
      */
     void update(NursingProject nursingProject);
+
+    /**
+     * 根据id删除当前护理项目
+     * @param id
+     * @return
+     */
+    void deleteById(Long id);
 }
