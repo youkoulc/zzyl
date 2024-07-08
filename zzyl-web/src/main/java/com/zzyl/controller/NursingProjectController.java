@@ -78,5 +78,7 @@ public class NursingProjectController extends BaseController {
             @RequestBody NursingProjectDto nursingProjectDto){
         nursingProjectService.update(nursingProjectDto);
         return success();
-    } 
+    }
+
+
 }

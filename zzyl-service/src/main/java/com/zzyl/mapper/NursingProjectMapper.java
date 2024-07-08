@@ -1,9 +1,12 @@
 package com.zzyl.mapper;
 
 import com.github.pagehelper.Page;
+import com.zzyl.entity.NursingPlan;
 import com.zzyl.entity.NursingProject;
 import com.zzyl.vo.NursingProjectVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @Description NursingProjectMapper
@@ -34,4 +37,6 @@ public interface NursingProjectMapper {
      * @return
      */
     void update(NursingProject nursingProject);
+
+    List<NursingPlan> getNursingPlan();
 }
