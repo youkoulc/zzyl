@@ -27,4 +27,11 @@ public interface NursingProjectMapper {
      * @return
      */
     NursingProject selectById(Long id);
+
+    /**
+     * 修改护理项目
+     * @param nursingProject
+     * @return
+     */
+    void update(NursingProject nursingProject);
 }

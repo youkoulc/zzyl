@@ -66,5 +66,17 @@ public class NursingProjectController extends BaseController {
     }
 
 
-
+    /**
+     * 修改护理项目
+     * @param nursingProjectDto
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改护理项目")
+    public ResponseResult update(
+            @ApiParam(value = "护理项目数据传输对象", required = true)
+            @RequestBody NursingProjectDto nursingProjectDto){
+        nursingProjectService.update(nursingProjectDto);
+        return success();
+    } 
 }

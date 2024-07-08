@@ -8,6 +8,24 @@
                 #{updateBy}, #{remark}, #{createTime}, #{updateTime})
     </insert>
 
+    <update id="update">
+        update nursing_project
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="unit != null and unit != ''">unit = #{unit},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null and image != ''">image = #{image},</if>
+            <if test="nursingRequirement != null and nursingRequirement != ''">nursing_requirement = #{nursingRequirement},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
     <select id="selectByPage" resultType="com.zzyl.vo.NursingProjectVo">
         select np.*,su.real_name creator
         from nursing_project np left join sys_user su on su.id=np.create_by
