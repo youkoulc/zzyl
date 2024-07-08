@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/nursing_project")
 @Api(tags = "护理项目管理")
 public class NursingProjectController extends BaseController {
     @Autowired
@@ -26,7 +27,7 @@ public class NursingProjectController extends BaseController {
      * @param status
      * @return
      */
-    @GetMapping("/nursing_project")
+    @GetMapping
     @ApiOperation("分页查询护理项目列表")
     public ResponseResult<PageResponse<NursingProjectVo>> getByPage(@ApiParam("护理项目名称") String name,
                                                                     @ApiParam("当前页码") @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -39,13 +40,31 @@ public class NursingProjectController extends BaseController {
 
     /**
      * 新增护理项目
+     *
      * @param nursingProjectDto
      * @return
      */
     @PostMapping
     @ApiOperation("新增护理项目")
-    public ResponseResult add(@RequestBody NursingProjectDto nursingProjectDto) {
-    nursingProjectService.add(nursingProjectDto);
+    public ResponseResult add(@ApiParam(value = "护理项目数据传输对象", required = true)
+                              @RequestBody NursingProjectDto nursingProjectDto) {
+        nursingProjectService.add(nursingProjectDto);
         return success();
     }
+
+    /**
+     * 根据id查询护理项目
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询护理项目")
+    public ResponseResult<NursingProjectVo> getById(@ApiParam(value = "护理项目id", required = true)
+                                                    @PathVariable Long id) {
+        NursingProjectVo nursingProjectVo = nursingProjectService.getById(id);
+        return success(nursingProjectVo);
+    }
+
+
+
 }

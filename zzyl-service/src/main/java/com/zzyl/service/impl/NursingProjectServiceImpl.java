@@ -51,4 +51,16 @@ public class NursingProjectServiceImpl implements NursingProjectService {
         NursingProject nursingProject = BeanUtil.toBean(nursingProjectDto, NursingProject.class);
         nursingProjectMapper.insert(nursingProject);
     }
+
+    /**
+     * 根据id查询护理项目
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public NursingProjectVo getById(Long id) {
+        NursingProject nursingProject=nursingProjectMapper.selectById(id);
+        return BeanUtil.toBean(nursingProject, NursingProjectVo.class);
+    }
 }

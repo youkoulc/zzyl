@@ -27,4 +27,11 @@ public interface NursingProjectService {
      * @return
      */
     void add(NursingProjectDto nursingProjectDto);
+
+    /**
+     * 根据id查询护理项目
+     * @param id
+     * @return
+     */
+    NursingProjectVo getById(Long id);
 }

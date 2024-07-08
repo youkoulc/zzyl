@@ -4,7 +4,8 @@
     <insert id="insert">
         insert into nursing_project (name, order_no, unit, price, image, nursing_requirement, status, create_by,
                                      update_by, remark, create_time, update_time)
-        VALUES (#{name},#{orderNo},#{unit},#{price},#{image},#{nursingRequirement},#{status},#{createBy},#{updateBy},#{remark},#{createTime},#{updateTime})
+        VALUES (#{name}, #{orderNo}, #{unit}, #{price}, #{image}, #{nursingRequirement}, #{status}, #{createBy},
+                #{updateBy}, #{remark}, #{createTime}, #{updateTime})
     </insert>
 
     <select id="selectByPage" resultType="com.zzyl.vo.NursingProjectVo">
@@ -15,5 +16,11 @@
             <if test="status!=null">and status=#{status}</if>
         </where>
         order by order_no ,create_time desc
+    </select>
+
+    <select id="selectById" resultType="com.zzyl.entity.NursingProject">
+        select *
+        from nursing_project
+        where id = #{id};
     </select>
 </mapper>
