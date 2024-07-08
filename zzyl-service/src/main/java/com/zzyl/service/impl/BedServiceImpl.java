@@ -3,6 +3,8 @@ package com.zzyl.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.zzyl.dto.BedDto;
 import com.zzyl.entity.Bed;
+import com.zzyl.enums.BasicEnum;
+import com.zzyl.exception.BaseException;
 import com.zzyl.mapper.BedMapper;
 import com.zzyl.service.BedService;
 import com.zzyl.vo.BedVo;
@@ -36,7 +38,11 @@ public class BedServiceImpl implements BedService {
         bed.setBedStatus(0);
         bed.setCreateBy(1L);
 
-        return bedMapper.addBed(bed);
+        try {
+            return bedMapper.addBed(bed);
+        } catch (Exception e) {
+            throw new BaseException(BasicEnum.BED_INSERT_FAIL);
+        }
     }
 
     /**
