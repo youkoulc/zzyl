@@ -37,7 +37,7 @@
         from nursing_level nl left join sys_user su on nl.create_by=su.id left join nursing_plan np on np.id = nl.lplan_id
         <where>
             <if test="name!=null and name!=''">name like concat('%',#{name},'%')</if>
-            <if test="status!=null">and status=#{status}</if>
+            <if test="status!=null">and nl.status=#{status}</if>
         </where>
         order by create_time desc
     </select>
