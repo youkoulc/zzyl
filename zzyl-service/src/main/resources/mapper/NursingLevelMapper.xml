@@ -4,6 +4,16 @@
     <!--查询所有-->
     <select id="selectAll" resultType="com.zzyl.vo.NursingLevelVo">
         select *
-        from zzyl.nursing_level;
+        from nursing_level;
+    </select>
+    <!--条件分页查询-->
+    <select id="selectByPage" resultType="com.zzyl.vo.NursingLevelVo">
+        select nl.*,su.real_name creator,np.plan_name planName
+        from nursing_level nl left join sys_user su on nl.create_by=su.id left join nursing_plan np on np.id = nl.lplan_id
+        <where>
+            <if test="name!=null and name!=''">name like concat('%',#{name},'%')</if>
+            <if test="status!=null">and status=#{status}</if>
+        </where>
+        order by create_time desc
     </select>
 </mapper>

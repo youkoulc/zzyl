@@ -1,5 +1,9 @@
 package com.zzyl.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.zzyl.base.PageResponse;
+import com.zzyl.entity.NursingLevel;
 import com.zzyl.mapper.NursingLevelMapper;
 import com.zzyl.service.NursingLevelService;
 import com.zzyl.vo.NursingLevelVo;
@@ -26,5 +30,23 @@ public class NursingLevelServiceImpl implements NursingLevelService {
     @Override
     public List<NursingLevelVo> getAll() {
         return nursingLevelMapper.selectAll();
+    }
+
+    /**
+     * 护理等级条件分页查询
+     *
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    @Override
+    public PageResponse<NursingLevelVo> getByPage(String name, Integer pageNum, Integer pageSize, Integer status) {
+        PageHelper.startPage(pageNum,pageSize);
+        Page<NursingLevelVo> page=nursingLevelMapper.selectByPage(name,status);
+        PageResponse<NursingLevelVo> pageResponse = new PageResponse<>(page);
+        pageResponse.setRecords(page.getResult());
+        return pageResponse;
     }
 }

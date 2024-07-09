@@ -1,5 +1,6 @@
 package com.zzyl.mapper;
 
+import com.github.pagehelper.Page;
 import com.zzyl.vo.NursingLevelVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,4 +18,15 @@ public interface NursingLevelMapper {
      * @return
      */
     List<NursingLevelVo> selectAll();
+
+    /**
+     * 护理等级条件分页查询
+     *
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    Page<NursingLevelVo> selectByPage(String name, Integer status);
 }

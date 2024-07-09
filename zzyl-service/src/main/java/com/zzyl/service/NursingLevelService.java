@@ -1,5 +1,6 @@
 package com.zzyl.service;
 
+import com.zzyl.base.PageResponse;
 import com.zzyl.vo.NursingLevelVo;
 
 import java.util.List;
@@ -15,4 +16,15 @@ public interface NursingLevelService {
      * @return
      */
     List<NursingLevelVo> getAll();
+
+    /**
+     * 护理等级条件分页查询
+     *
+     * @param name
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    PageResponse<NursingLevelVo> getByPage(String name, Integer pageNum, Integer pageSize, Integer status);
 }
