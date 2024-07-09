@@ -3,8 +3,8 @@
 <mapper namespace="com.zzyl.mapper.NursingLevelMapper">
     <!--新增护理等级-->
     <insert id="insert">
-        insert into nursing_level (name, lplan_id, fee, description, create_by, update_by, remark)
-        VALUES (#{name},#{planId},#{fee},#{description},#{createBy},#{updateBy},#{remark})
+        insert into nursing_level (name, lplan_id, fee, description, create_by, update_by, remark,status,create_time,update_time)
+        VALUES (#{name},#{planId},#{fee},#{description},#{createBy},#{updateBy},#{remark},#{status}, #{createTime}, #{updateTime})
     </insert>
     <!--修改护理等级-->
     <update id="update">
