@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zzyl.mapper.NursingLevelMapper">
+    <!--新增护理等级-->
+    <insert id="insert">
+        insert into nursing_level (name, lplan_id, fee, description, create_by, update_by, remark)
+        VALUES (#{name},#{planId},#{fee},#{description},#{createBy},#{updateBy},#{remark})
+    </insert>
     <!--查询所有-->
     <select id="selectAll" resultType="com.zzyl.vo.NursingLevelVo">
         select *

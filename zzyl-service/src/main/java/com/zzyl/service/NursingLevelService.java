@@ -1,6 +1,7 @@
 package com.zzyl.service;
 
 import com.zzyl.base.PageResponse;
+import com.zzyl.dto.NursingLevelDto;
 import com.zzyl.vo.NursingLevelVo;
 
 import java.util.List;
@@ -27,4 +28,11 @@ public interface NursingLevelService {
      * @return
      */
     PageResponse<NursingLevelVo> getByPage(String name, Integer pageNum, Integer pageSize, Integer status);
+
+    /**
+     * 新增护理等级
+     * @param nursingLevelDto
+     * @return
+     */
+    void add(NursingLevelDto nursingLevelDto);
 }
