@@ -21,4 +21,7 @@ public interface NursingPlanMapper {
     void addNursingPlan(NursingPlan nursingPlan);
     void addNursingProjectPlan(NursingProjectPlan nursingProjectPlan);
 
+    void deleteNursingPlan(Integer id);
+
+    void deleteNursingProjectPlan(Integer id);
 }

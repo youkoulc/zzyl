@@ -30,4 +30,10 @@ public interface NursingPlanService {
      * @return
      */
     void addNursingPlan(NursingPlanDto nursingPlanDto);
+
+    /**
+     * 删除护理计划
+     * @param id
+     */
+    void deleteNursingPlan(Integer id);
 }

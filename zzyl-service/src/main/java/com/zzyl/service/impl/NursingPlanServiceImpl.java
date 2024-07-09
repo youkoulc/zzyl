@@ -81,9 +81,18 @@ public class NursingPlanServiceImpl implements NursingPlanService {
                 nursingPlanMapper.addNursingProjectPlan(nursingProjectPlan);
             }
 
-
         }
 
 
+    }
+
+    /**
+     * 删除护理计划
+     * @param id
+     */
+    @Override
+    public void deleteNursingPlan(Integer id) {
+        nursingPlanMapper.deleteNursingPlan(id);
+        nursingPlanMapper.deleteNursingProjectPlan(id);
     }
 }

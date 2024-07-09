@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,6 +70,19 @@ public class NursingPlanController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(value = "护理计划", name = "nursingPlanDto", required = true, dataType = "NursingPlanDto")})
     public ResponseResult addNursingPlan(@RequestBody NursingPlanDto nursingPlanDto){
         nursingPlanService.addNursingPlan(nursingPlanDto);
+        return success();
+    }
+
+    /**
+     *  根据id删除护理计划
+     * @param id
+     * @return
+     */
+   @DeleteMapping("/{id}")
+   @ApiOperation("删除护理计划")
+   @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
+    public ResponseResult deleteNursingPlan(@PathVariable("id") Integer id) {
+        nursingPlanService.deleteNursingPlan(id);
         return success();
     }
 }
