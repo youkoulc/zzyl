@@ -92,5 +92,18 @@ public class NursingLevelController extends BaseController {
     public ResponseResult update(@RequestBody NursingLevelDto nursingLevelDto){
         nursingLevelService.update(nursingLevelDto);
         return success();
-    } 
+    }
+
+
+    /**
+     * 删除护理等级
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation("删除护理等级")
+    public ResponseResult delete(@ApiParam("护理等级id") @PathVariable Integer id){
+        nursingLevelService.delete(id);
+        return success();
+    }
 }

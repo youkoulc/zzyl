@@ -51,4 +51,11 @@ public interface NursingLevelMapper {
      * @return
      */
     void update(NursingLevel nursingLevel);
+
+    /**
+     * 删除护理等级
+     * @param id
+     * @return
+     */
+    void deleteById(Integer id);
 }

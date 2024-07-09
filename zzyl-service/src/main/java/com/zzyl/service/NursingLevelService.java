@@ -49,4 +49,11 @@ public interface NursingLevelService {
      * @return
      */
     void update(NursingLevelDto nursingLevelDto);
+
+    /**
+     * 删除护理等级
+     * @param id
+     * @return
+     */
+    void delete(Integer id);
 }

@@ -86,4 +86,15 @@ public class NursingLevelServiceImpl implements NursingLevelService {
         NursingLevel nursingLevel = BeanUtil.toBean(nursingLevelDto, NursingLevel.class);
         nursingLevelMapper.update(nursingLevel);
     }
+
+    /**
+     * 删除护理等级
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public void delete(Integer id) {
+        nursingLevelMapper.deleteById(id);
+    }
 }

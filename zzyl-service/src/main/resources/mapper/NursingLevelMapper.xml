@@ -21,6 +21,11 @@
         </set>
     where id =#{id}
     </update>
+    <delete id="deleteById">
+        delete
+        from nursing_level
+        where id = #{id}
+    </delete>
     <!--查询所有-->
     <select id="selectAll" resultType="com.zzyl.vo.NursingLevelVo">
         select *
