@@ -1,6 +1,8 @@
 package com.zzyl.service;
 
 import com.zzyl.base.PageResponse;
+import com.zzyl.dto.NursingPlanDto;
+import com.zzyl.dto.NursingProjectPlanDto;
 import com.zzyl.vo.NursingPlanVo;
 
 import java.util.List;
@@ -21,4 +23,11 @@ public interface NursingPlanService {
      * @return
      */
     PageResponse<NursingPlanVo> getByPage(String name, Integer pageNum, Integer pageSize, Integer status);
+
+    /**
+     * 新增护理计划
+     * @param nursingPlanDto
+     * @return
+     */
+    void addNursingPlan(NursingPlanDto nursingPlanDto);
 }

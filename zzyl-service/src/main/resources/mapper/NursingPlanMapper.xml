@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zzyl.mapper.NursingPlanMapper">
+    <!-- 添加护理计划 -->
+    <insert id="addNursingPlan" useGeneratedKeys="true" keyProperty="id">
+       insert into nursing_plan(sort_no,plan_name,status, create_time, update_time, create_by, update_by, remark)
+        values(#{sortNo}, #{planName},#{status},#{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{remark})
+    </insert>
+    <insert id="addNursingProjectPlan"  >
+        insert into nursing_project_plan(plan_id,project_id,execute_time,execute_cycle,execute_frequency, create_time, update_time, create_by, update_by, remark)
+        values(#{planId}, #{projectId},#{executeTime},#{executeCycle},#{executeFrequency},#{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{remark})
+    </insert>
+
+
     <!--查询所有护理计划 -->
     <select id="getNursingPlan" resultType="com.zzyl.entity.NursingPlan">
         select * from nursing_plan;
     </select>
 
+
+
+
     <!-- 查询护理计划分页 -->
     <select id="selectByPage" resultType="com.zzyl.vo.NursingPlanVo">
-        select *
-        from nursing_plan
+        select np.*,su.real_name creator
+        from nursing_plan np left join sys_user su on su.id = np.create_by
         <where>
             <if test="name!=null and name!=''">plan_name like  concat('%',#{name},'%')</if>
             <if test="status!=null">and status=#{status}</if>
