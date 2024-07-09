@@ -54,13 +54,14 @@ public class NursingPlanController extends BaseController {
             @ApiImplicitParam(value = "每页条数", name = "pageSize", required = true),
             @ApiImplicitParam(value = "状态", name = "status", required = true)})
     public ResponseResult<PageResponse<NursingPlanVo>> getByPage(String name, @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Integer status) {
-       log.info("分页获取护理计划 {} {} {} {}", name, pageNum, pageSize, status);
+        log.info("分页获取护理计划 {} {} {} {}", name, pageNum, pageSize, status);
         PageResponse<NursingPlanVo> pageResponse = nursingPlanService.getByPage(name, pageNum, pageSize, status);
         return success(pageResponse);
     }
 
     /**
-     *  新增护理计划
+     * 新增护理计划
+     *
      * @param nursingPlanDto
      * @return
      */
@@ -68,21 +69,30 @@ public class NursingPlanController extends BaseController {
     @PostMapping
     @ApiOperation("新增护理计划")
     @ApiImplicitParams({@ApiImplicitParam(value = "护理计划", name = "nursingPlanDto", required = true, dataType = "NursingPlanDto")})
-    public ResponseResult addNursingPlan(@RequestBody NursingPlanDto nursingPlanDto){
+    public ResponseResult addNursingPlan(@RequestBody NursingPlanDto nursingPlanDto) {
         nursingPlanService.addNursingPlan(nursingPlanDto);
         return success();
     }
 
     /**
-     *  根据id删除护理计划
+     * 根据id删除护理计划
+     *
      * @param id
      * @return
      */
-   @DeleteMapping("/{id}")
-   @ApiOperation("删除护理计划")
-   @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除护理计划")
+    @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
     public ResponseResult deleteNursingPlan(@PathVariable("id") Integer id) {
         nursingPlanService.deleteNursingPlan(id);
         return success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id获取护理计划")
+    @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
+    public ResponseResult<NursingPlanVo> getById(@PathVariable("id") Integer id) {
+        NursingPlanVo nursingPlanVos = nursingPlanService.getById(id);
+        return success(nursingPlanVos);
     }
 }

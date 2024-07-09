@@ -36,4 +36,11 @@ public interface NursingPlanService {
      * @param id
      */
     void deleteNursingPlan(Integer id);
+
+    /**
+     * 根据id获取护理计划
+     * @param projectPlanId
+     * @return
+     */
+    NursingPlanVo getById(Integer id);
 }

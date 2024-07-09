@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.zzyl.entity.NursingPlan;
 import com.zzyl.entity.NursingProjectPlan;
 import com.zzyl.vo.NursingPlanVo;
+import com.zzyl.vo.NursingProjectPlanVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,7 +22,19 @@ public interface NursingPlanMapper {
     void addNursingPlan(NursingPlan nursingPlan);
     void addNursingProjectPlan(NursingProjectPlan nursingProjectPlan);
 
+    /**
+     * 根据id删除护理计划
+     * @param id
+     */
     void deleteNursingPlan(Integer id);
-
     void deleteNursingProjectPlan(Integer id);
+
+    /**
+     * 根据id获取护理计划
+     * @param
+     * @return
+     */
+    NursingPlan getById(Integer id);
+
+    List<NursingProjectPlanVo> getProjectPlan(Integer id);
 }

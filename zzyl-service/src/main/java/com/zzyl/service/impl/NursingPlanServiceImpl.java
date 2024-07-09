@@ -88,6 +88,7 @@ public class NursingPlanServiceImpl implements NursingPlanService {
 
     /**
      * 删除护理计划
+     *
      * @param id
      */
     @Override
@@ -95,4 +96,23 @@ public class NursingPlanServiceImpl implements NursingPlanService {
         nursingPlanMapper.deleteNursingPlan(id);
         nursingPlanMapper.deleteNursingProjectPlan(id);
     }
+
+    /**
+     * 根据id获取护理计划
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public NursingPlanVo getById(Integer id) {
+        NursingPlan nursingPlan = nursingPlanMapper.getById(id);
+        List<NursingProjectPlanVo> projectPlanList = nursingPlanMapper.getProjectPlan(id);
+
+
+            nursingPlan.setProjectPlans(projectPlanList);
+            return BeanUtil.toBean(nursingPlan, NursingPlanVo.class);
+
+    }
+
+
 }
