@@ -107,10 +107,32 @@ public class NursingPlanServiceImpl implements NursingPlanService {
     public NursingPlanVo getById(Integer id) {
         NursingPlan nursingPlan = nursingPlanMapper.getById(id);
         List<NursingProjectPlanVo> projectPlanList = nursingPlanMapper.getProjectPlan(id);
+        nursingPlan.setProjectPlans(projectPlanList);
+        return BeanUtil.toBean(nursingPlan, NursingPlanVo.class);
 
+    }
 
-            nursingPlan.setProjectPlans(projectPlanList);
-            return BeanUtil.toBean(nursingPlan, NursingPlanVo.class);
+    /**
+     * 更新护理计划
+     *
+     * @param nursingPlanDto
+     */
+    @Override
+    public void updateNursingPlan(NursingPlanDto nursingPlanDto) {
+        NursingPlan nursingPlan = BeanUtil.toBean(nursingPlanDto, NursingPlan.class);
+        nursingPlanMapper.updateNursingPlan(nursingPlan);
+//先删除原有项目计划
+        nursingPlanMapper.deleteNursingProjectPlan(Math.toIntExact(nursingPlan.getId()));
+        List<NursingProjectPlanDto> projectPlanDtos = nursingPlanDto.getProjectPlans();
+        if (projectPlanDtos != null && !projectPlanDtos.isEmpty()) {
+
+            //再新增项目计划
+            for (NursingProjectPlanDto projectPlanDto : projectPlanDtos) {
+                NursingProjectPlan nursingProjectPlan = BeanUtil.toBean(projectPlanDto, NursingProjectPlan.class);
+                nursingProjectPlan.setPlanId(nursingPlan.getId());
+                nursingPlanMapper.addNursingProjectPlan(nursingProjectPlan);
+            }
+        }
 
     }
 

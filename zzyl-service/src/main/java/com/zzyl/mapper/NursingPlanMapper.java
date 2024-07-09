@@ -35,6 +35,11 @@ public interface NursingPlanMapper {
      * @return
      */
     NursingPlan getById(Integer id);
-
     List<NursingProjectPlanVo> getProjectPlan(Integer id);
+
+    /**
+     *  更新护理计划
+     * @param nursingPlan
+     */
+    void updateNursingPlan(NursingPlan nursingPlan);
 }

@@ -39,8 +39,10 @@ public interface NursingPlanService {
 
     /**
      * 根据id获取护理计划
-     * @param projectPlanId
+     * @param id
      * @return
      */
     NursingPlanVo getById(Integer id);
+
+    void updateNursingPlan(NursingPlanDto nursingPlanDto);
 }

@@ -88,11 +88,29 @@ public class NursingPlanController extends BaseController {
         return success();
     }
 
+    /**
+     * 根据id获取护理计划
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     @ApiOperation("根据id获取护理计划")
     @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
     public ResponseResult<NursingPlanVo> getById(@PathVariable("id") Integer id) {
         NursingPlanVo nursingPlanVos = nursingPlanService.getById(id);
         return success(nursingPlanVos);
+    }
+
+    /**
+     * 更新护理计划
+     * @param nursingPlanDto
+     * @return
+     */
+    @PutMapping("/{id}")
+    @ApiOperation("更新护理计划")
+    @ApiImplicitParams({@ApiImplicitParam(value = "护理计划", name = "nursingPlanDto", required = true, dataType = "NursingPlanDto")})
+    public ResponseResult updateNursingPlan(@RequestBody NursingPlanDto nursingPlanDto) {
+        nursingPlanService.updateNursingPlan(nursingPlanDto);
+        return success();
     }
 }

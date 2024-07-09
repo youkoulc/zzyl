@@ -3,27 +3,38 @@
 <mapper namespace="com.zzyl.mapper.NursingPlanMapper">
     <!-- 添加护理计划 -->
     <insert id="addNursingPlan" useGeneratedKeys="true" keyProperty="id">
-       insert into nursing_plan(sort_no,plan_name,status, create_time, update_time, create_by, update_by, remark)
-        values(#{sortNo}, #{planName},#{status},#{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{remark})
+        insert into nursing_plan(sort_no, plan_name, status, create_time, update_time, create_by, update_by, remark)
+        values (#{sortNo}, #{planName}, #{status}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{remark})
     </insert>
-    <insert id="addNursingProjectPlan"  >
-        insert into nursing_project_plan(plan_id,project_id,execute_time,execute_cycle,execute_frequency, create_time, update_time, create_by, update_by, remark)
-        values(#{planId}, #{projectId},#{executeTime},#{executeCycle},#{executeFrequency},#{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{remark})
+    <insert id="addNursingProjectPlan">
+        insert into nursing_project_plan(plan_id, project_id, execute_time, execute_cycle, execute_frequency,
+                                         create_time, update_time, create_by, update_by, remark)
+        values (#{planId}, #{projectId}, #{executeTime}, #{executeCycle}, #{executeFrequency}, #{createTime},
+                #{updateTime}, #{createBy}, #{updateBy}, #{remark})
     </insert>
+    <update id="updateNursingPlan">
+        update nursing_plan
+        set sort_no = #{sortNo}, plan_name = #{planName}, status = #{status}, update_time = #{updateTime},
+            update_by = #{updateBy}, remark = #{remark}
+        where id = #{id}
+    </update>
     <delete id="deleteNursingPlan">
-        delete from nursing_plan where id = #{id}
+        delete
+        from nursing_plan
+        where id = #{id}
     </delete>
     <delete id="deleteNursingProjectPlan">
-        delete from nursing_project_plan where plan_id = #{planId}
+        delete
+        from nursing_project_plan
+        where plan_id = #{planId}
     </delete>
 
 
     <!--查询所有护理计划 -->
     <select id="getNursingPlan" resultType="com.zzyl.entity.NursingPlan">
-        select * from nursing_plan;
+        select *
+        from nursing_plan;
     </select>
-
-
 
 
     <!-- 查询护理计划分页 -->
@@ -31,16 +42,21 @@
         select np.*,su.real_name creator
         from nursing_plan np left join sys_user su on su.id = np.create_by
         <where>
-            <if test="name!=null and name!=''">plan_name like  concat('%',#{name},'%')</if>
+            <if test="name!=null and name!=''">plan_name like concat('%',#{name},'%')</if>
             <if test="status!=null">and status=#{status}</if>
         </where>
 
     </select>
     <!--根据id查询护理计-->
     <select id="getById" resultType="com.zzyl.entity.NursingPlan">
-        select np.*   from nursing_plan np     where np.id = #{id}
+        select np.*
+        from nursing_plan np
+        where np.id = #{id}
     </select>
     <select id="getProjectPlan" resultType="com.zzyl.vo.NursingProjectPlanVo">
-        select npp.*,npj.name projectName from nursing_project_plan npp left join nursing_project npj on npp.project_id = npj.id where plan_id = #{id}
+        select npp.*, npj.name projectName
+        from nursing_project_plan npp
+                 left join nursing_project npj on npp.project_id = npj.id
+        where plan_id = #{id}
     </select>
 </mapper>
