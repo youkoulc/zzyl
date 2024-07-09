@@ -45,8 +45,8 @@ public class NursingLevelServiceImpl implements NursingLevelService {
      */
     @Override
     public PageResponse<NursingLevelVo> getByPage(String name, Integer pageNum, Integer pageSize, Integer status) {
-        PageHelper.startPage(pageNum,pageSize);
-        Page<NursingLevelVo> page=nursingLevelMapper.selectByPage(name,status);
+        PageHelper.startPage(pageNum, pageSize);
+        Page<NursingLevelVo> page = nursingLevelMapper.selectByPage(name, status);
         PageResponse<NursingLevelVo> pageResponse = new PageResponse<>(page);
         pageResponse.setRecords(page.getResult());
         return pageResponse;
@@ -96,5 +96,19 @@ public class NursingLevelServiceImpl implements NursingLevelService {
     @Override
     public void delete(Integer id) {
         nursingLevelMapper.deleteById(id);
+    }
+
+    /**
+     * 切换状态
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    @Override
+    public void switchStatus(Integer id, Integer status) {
+        NursingLevelVo nursingLevelVo = nursingLevelMapper.selectById(id);
+        nursingLevelVo.setStatus(status);
+        nursingLevelMapper.update(BeanUtil.toBean(nursingLevelVo, NursingLevel.class));
     }
 }

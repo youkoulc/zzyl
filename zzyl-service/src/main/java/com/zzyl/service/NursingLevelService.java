@@ -56,4 +56,12 @@ public interface NursingLevelService {
      * @return
      */
     void delete(Integer id);
+
+    /**
+     * 切换状态
+     * @param id
+     * @param status
+     * @return
+     */
+    void switchStatus(Integer id, Integer status);
 }

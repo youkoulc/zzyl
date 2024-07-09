@@ -6,9 +6,7 @@ import com.zzyl.dto.NursingLevelDto;
 import com.zzyl.entity.NursingLevel;
 import com.zzyl.service.NursingLevelService;
 import com.zzyl.vo.NursingLevelVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,6 +102,21 @@ public class NursingLevelController extends BaseController {
     @ApiOperation("删除护理等级")
     public ResponseResult delete(@ApiParam("护理等级id") @PathVariable Integer id){
         nursingLevelService.delete(id);
+        return success();
+    }
+
+    /**
+     * 切换状态
+     * @param id
+     * @param status
+     * @return
+     */
+    @PutMapping("/{id}/status/{status}")
+    @ApiOperation("启用禁用")
+    @ApiImplicitParams({@ApiImplicitParam(value = "护理等级id", name = "id", required = true),
+            @ApiImplicitParam(value = "护理等级状态", name = "status", required = true)})
+    public ResponseResult switchStatus( @PathVariable Integer id, @PathVariable Integer status){
+        nursingLevelService.switchStatus(id,status);
         return success();
     }
 }
