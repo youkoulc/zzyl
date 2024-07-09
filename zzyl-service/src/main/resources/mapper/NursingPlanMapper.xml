@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zzyl.mapper.NursingPlanMapper">
-
+    <!--查询所有护理计划 -->
     <select id="getNursingPlan" resultType="com.zzyl.entity.NursingPlan">
         select * from nursing_plan;
+    </select>
+
+    <!-- 查询护理计划分页 -->
+    <select id="selectByPage" resultType="com.zzyl.vo.NursingPlanVo">
+        select *
+        from nursing_plan
+        <where>
+            <if test="name!=null and name!=''">plan_name like  concat('%',#{name},'%')</if>
+            <if test="status!=null">and status=#{status}</if>
+        </where>
+
     </select>
 </mapper>

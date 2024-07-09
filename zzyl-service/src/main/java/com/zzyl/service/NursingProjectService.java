@@ -4,6 +4,8 @@ import com.zzyl.base.PageResponse;
 import com.zzyl.dto.NursingProjectDto;
 import com.zzyl.vo.NursingProjectVo;
 
+import java.util.List;
+
 /**
  * @Description NursingProjectService
  * @Author HeFeng
@@ -56,4 +58,10 @@ public interface NursingProjectService {
      * @return
      */
     void deleteById(Long id);
+
+    /**
+     * 获取所有护理项目
+     * @return
+     */
+    List<NursingProjectVo> getNursingProject();
 }

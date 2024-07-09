@@ -9,6 +9,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/nursing_project")
 @Api(tags = "护理项目管理")
@@ -27,7 +29,10 @@ public class NursingProjectController extends BaseController {
      */
     @GetMapping
     @ApiOperation("分页查询护理项目列表")
-    public ResponseResult<PageResponse<NursingProjectVo>> getByPage(@ApiParam("护理项目名称") String name, @ApiParam("当前页码") @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum, @ApiParam("每页显示条数") @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, @ApiParam("状态：0-禁用，1-启用") Integer status) {
+    public ResponseResult<PageResponse<NursingProjectVo>> getByPage(@ApiParam("护理项目名称") String name,
+                                                                    @ApiParam("当前页码") @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                                    @ApiParam("每页显示条数") @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                                    @ApiParam("状态：0-禁用，1-启用") Integer status) {
 
         PageResponse<NursingProjectVo> pageResponse = nursingProjectService.getByPage(name, pageNum, pageSize, status);
         return success(pageResponse);
@@ -102,5 +107,16 @@ public class NursingProjectController extends BaseController {
         return success();
     }
 
+    /**
+     * 获取所有护理项目
+     * @return
+     */
+
+    @GetMapping("/all")
+    @ApiOperation("获取所有护理项目")
+    public ResponseResult<List<NursingProjectVo>> getNursingProject() {
+        List<NursingProjectVo> nursingProjectVo = nursingProjectService.getNursingProject();
+        return success(nursingProjectVo);
+    }
 
 }

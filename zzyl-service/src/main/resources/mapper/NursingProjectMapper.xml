@@ -44,4 +44,7 @@
         from nursing_project
         where id = #{id};
     </select>
+    <select id="selectAll" resultType="com.zzyl.entity.NursingProject">
+        select * from nursing_project;
+    </select>
 </mapper>

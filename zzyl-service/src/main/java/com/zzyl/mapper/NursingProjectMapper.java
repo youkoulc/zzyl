@@ -5,6 +5,8 @@ import com.zzyl.entity.NursingProject;
 import com.zzyl.vo.NursingProjectVo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @Description NursingProjectMapper
  * @Author HeFeng
@@ -41,4 +43,6 @@ public interface NursingProjectMapper {
      * @return
      */
     void deleteById(Long id);
+
+    List<NursingProject> selectAll();
 }

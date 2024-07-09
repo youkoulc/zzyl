@@ -12,6 +12,9 @@ import com.zzyl.vo.NursingProjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @Description NursingProjectServiceImpl
  * @Author HeFeng
@@ -24,6 +27,7 @@ public class NursingProjectServiceImpl implements NursingProjectService {
 
     /**
      * 分页查询护理项目列表
+     *
      * @param name
      * @param pageNum
      * @param pageSize
@@ -32,11 +36,15 @@ public class NursingProjectServiceImpl implements NursingProjectService {
      */
     @Override
     public PageResponse<NursingProjectVo> getByPage(String name, Integer pageNum, Integer pageSize, Integer status) {
-        PageHelper.startPage(pageNum,pageSize);
-        Page<NursingProjectVo> page=nursingProjectMapper.selectByPage(name,status);
-
+        // 开启分页插件
+        PageHelper.startPage(pageNum, pageSize);
+        // 查询
+        Page<NursingProjectVo> page = nursingProjectMapper.selectByPage(name, status);
+        // 转换成PageResponse
         PageResponse<NursingProjectVo> pageResponse = new PageResponse(page);
+        // 设置返回数据
         pageResponse.setRecords(page.getResult());
+        // 关闭分页插件
         return pageResponse;
     }
 
@@ -60,7 +68,7 @@ public class NursingProjectServiceImpl implements NursingProjectService {
      */
     @Override
     public NursingProjectVo getById(Long id) {
-        NursingProject nursingProject=nursingProjectMapper.selectById(id);
+        NursingProject nursingProject = nursingProjectMapper.selectById(id);
         return BeanUtil.toBean(nursingProject, NursingProjectVo.class);
     }
 
@@ -72,7 +80,7 @@ public class NursingProjectServiceImpl implements NursingProjectService {
      */
     @Override
     public void update(NursingProjectDto nursingProjectDto) {
-        nursingProjectMapper.update(BeanUtil.toBean(nursingProjectDto,NursingProject.class));
+        nursingProjectMapper.update(BeanUtil.toBean(nursingProjectDto, NursingProject.class));
     }
 
     /**
@@ -101,5 +109,17 @@ public class NursingProjectServiceImpl implements NursingProjectService {
     @Override
     public void deleteById(Long id) {
         nursingProjectMapper.deleteById(id);
+    }
+
+    /**
+     * 获取所有护理项目
+     *
+     * @return
+     */
+    @Override
+    public List<NursingProjectVo> getNursingProject() {
+        List<NursingProject> nursingProjects = nursingProjectMapper.selectAll();
+        return nursingProjects.stream().map(item -> BeanUtil.toBean(item, NursingProjectVo.class)).collect(Collectors.toList());
+
     }
 }
