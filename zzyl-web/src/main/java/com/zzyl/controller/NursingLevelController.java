@@ -82,5 +82,15 @@ public class NursingLevelController extends BaseController {
         return success(nursingLevelVo);
     }
 
-
+    /**
+     * 修改护理等级
+     * @param nursingLevelDto
+     * @return
+     */
+    @PutMapping("/update")
+    @ApiOperation("修改护理等级")
+    public ResponseResult update(@RequestBody NursingLevelDto nursingLevelDto){
+        nursingLevelService.update(nursingLevelDto);
+        return success();
+    } 
 }

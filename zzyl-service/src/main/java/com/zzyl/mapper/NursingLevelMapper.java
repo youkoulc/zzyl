@@ -44,4 +44,11 @@ public interface NursingLevelMapper {
      * @return
      */
     NursingLevelVo selectById(Integer id);
+
+    /**
+     * 修改护理等级
+     * @param nursingLevel
+     * @return
+     */
+    void update(NursingLevel nursingLevel);
 }

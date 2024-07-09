@@ -42,4 +42,11 @@ public interface NursingLevelService {
      * @return
      */
     NursingLevelVo getById(Integer id);
+
+    /**
+     * 修改护理等级
+     * @param nursingLevelDto
+     * @return
+     */
+    void update(NursingLevelDto nursingLevelDto);
 }
