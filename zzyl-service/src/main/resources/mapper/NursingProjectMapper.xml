@@ -30,7 +30,7 @@
     </delete>
 
     <select id="selectByPage" resultType="com.zzyl.vo.NursingProjectVo">
-        select np.*,su.real_name creator
+        select np.*,su.real_name creator,(select count(*) from nursing_project_plan npp where npp.project_id=np.id) count
         from nursing_project np left join sys_user su on su.id=np.create_by
         <where>
             <if test="name!=null and name!=''">name like concat('%',#{name},'%')</if>

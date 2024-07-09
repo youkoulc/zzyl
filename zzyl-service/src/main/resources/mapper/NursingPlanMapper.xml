@@ -39,15 +39,14 @@
 
     <!-- 查询护理计划分页 -->
     <select id="selectByPage" resultType="com.zzyl.vo.NursingPlanVo">
-        select np.*,su.real_name creator
+        select np.*,su.real_name creator,(select count(*) from  nursing_level nl where nl.lplan_id=np.id) as count
         from nursing_plan np left join sys_user su on su.id = np.create_by
         <where>
             <if test="name!=null and name!=''">plan_name like concat('%',#{name},'%')</if>
             <if test="status!=null">and status=#{status}</if>
         </where>
-
     </select>
-    <!--根据id查询护理计-->
+    <!--根据id查询护理计划-->
     <select id="getById" resultType="com.zzyl.entity.NursingPlan">
         select np.*
         from nursing_plan np
