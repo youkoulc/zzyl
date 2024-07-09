@@ -35,4 +35,11 @@ public interface NursingLevelService {
      * @return
      */
     void add(NursingLevelDto nursingLevelDto);
+
+    /**
+     * 根据id查询护理等级
+     * @param id
+     * @return
+     */
+    NursingLevelVo getById(Integer id);
 }

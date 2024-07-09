@@ -37,4 +37,11 @@ public interface NursingLevelMapper {
      * @return
      */
     void insert(NursingLevel nursingLevel);
+
+    /**
+     * 根据id查询护理等级
+     * @param id
+     * @return
+     */
+    NursingLevelVo selectById(Integer id);
 }

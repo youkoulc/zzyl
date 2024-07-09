@@ -3,6 +3,7 @@ package com.zzyl.controller;
 import com.zzyl.base.PageResponse;
 import com.zzyl.base.ResponseResult;
 import com.zzyl.dto.NursingLevelDto;
+import com.zzyl.entity.NursingLevel;
 import com.zzyl.service.NursingLevelService;
 import com.zzyl.vo.NursingLevelVo;
 import io.swagger.annotations.Api;
@@ -56,6 +57,7 @@ public class NursingLevelController extends BaseController {
 
     /**
      * 新增护理等级
+     *
      * @param nursingLevelDto
      * @return
      */
@@ -63,8 +65,22 @@ public class NursingLevelController extends BaseController {
     @ApiOperation("新增护理等级")
     public ResponseResult add(
             @ApiParam(value = "护理等级数据传输对象", required = true)
-            @RequestBody NursingLevelDto nursingLevelDto){
+            @RequestBody NursingLevelDto nursingLevelDto) {
         nursingLevelService.add(nursingLevelDto);
         return success();
-    } 
+    }
+
+    /**
+     * 根据id查询护理等级
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询护理等级")
+    public ResponseResult<NursingLevelVo> getById(@ApiParam("护理等级id") @PathVariable Integer id) {
+        NursingLevelVo nursingLevelVo = nursingLevelService.getById(id);
+        return success(nursingLevelVo);
+    }
+
+
 }

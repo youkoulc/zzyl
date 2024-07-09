@@ -21,4 +21,9 @@
         </where>
         order by create_time desc
     </select>
+    <!--根据id查询-->
+    <select id="selectById" resultType="com.zzyl.vo.NursingLevelVo">
+        select nl.*,np.plan_name planName,np.id planId
+        from nursing_level nl left join nursing_plan np on lplan_id=np.id where nl.id =#{id}
+    </select>
 </mapper>
