@@ -1,8 +1,10 @@
 package com.zzyl.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zzyl.base.PageResponse;
+import com.zzyl.dto.NursingLevelDto;
 import com.zzyl.entity.NursingLevel;
 import com.zzyl.mapper.NursingLevelMapper;
 import com.zzyl.service.NursingLevelService;
@@ -48,5 +50,17 @@ public class NursingLevelServiceImpl implements NursingLevelService {
         PageResponse<NursingLevelVo> pageResponse = new PageResponse<>(page);
         pageResponse.setRecords(page.getResult());
         return pageResponse;
+    }
+
+    /**
+     * 新增护理等级
+     *
+     * @param nursingLevelDto
+     * @return
+     */
+    @Override
+    public void add(NursingLevelDto nursingLevelDto) {
+        NursingLevel nursingLevel = BeanUtil.toBean(nursingLevelDto, NursingLevel.class);
+        nursingLevelMapper.insert(nursingLevel);
     }
 }

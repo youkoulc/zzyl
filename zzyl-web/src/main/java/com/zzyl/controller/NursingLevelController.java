@@ -2,16 +2,14 @@ package com.zzyl.controller;
 
 import com.zzyl.base.PageResponse;
 import com.zzyl.base.ResponseResult;
+import com.zzyl.dto.NursingLevelDto;
 import com.zzyl.service.NursingLevelService;
 import com.zzyl.vo.NursingLevelVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -55,4 +53,18 @@ public class NursingLevelController extends BaseController {
         PageResponse<NursingLevelVo> pageResponse = nursingLevelService.getByPage(name, pageNum, pageSize, status);
         return success(pageResponse);
     }
+
+    /**
+     * 新增护理等级
+     * @param nursingLevelDto
+     * @return
+     */
+    @PostMapping("/insert")
+    @ApiOperation("新增护理等级")
+    public ResponseResult add(
+            @ApiParam(value = "护理等级数据传输对象", required = true)
+            @RequestBody NursingLevelDto nursingLevelDto){
+        nursingLevelService.add(nursingLevelDto);
+        return success();
+    } 
 }
