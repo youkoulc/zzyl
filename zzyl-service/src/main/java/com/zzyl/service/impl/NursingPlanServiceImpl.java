@@ -136,5 +136,23 @@ public class NursingPlanServiceImpl implements NursingPlanService {
 
     }
 
+    /**
+     * 更新状态
+     *
+     * @param id
+     * @param status
+     */
+
+    @Override
+    public void updateStatus(Integer id, Integer status) {
+        //根据id更新护理计划
+         NursingPlan nursingPlan = nursingPlanMapper.selectById(id);
+        //更新状态
+        nursingPlan.setStatus(status);
+        //更新护理计划
+        nursingPlanMapper.updateNursingPlan(nursingPlan);
+
+    }
+
 
 }

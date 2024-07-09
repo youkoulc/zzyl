@@ -44,5 +44,16 @@ public interface NursingPlanService {
      */
     NursingPlanVo getById(Integer id);
 
+    /**
+     * 更新护理计划
+     * @param nursingPlanDto
+     */
     void updateNursingPlan(NursingPlanDto nursingPlanDto);
+
+    /**
+     * 更新计划状态
+     * @param id
+     * @param status
+     */
+    void updateStatus(Integer id, Integer status);
 }

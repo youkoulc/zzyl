@@ -42,4 +42,6 @@ public interface NursingPlanMapper {
      * @param nursingPlan
      */
     void updateNursingPlan(NursingPlan nursingPlan);
+
+    NursingPlan selectById(Integer id);
 }

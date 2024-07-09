@@ -59,4 +59,9 @@
                  left join nursing_project npj on npp.project_id = npj.id
         where plan_id = #{id}
     </select>
+    <select id="selectById" resultType="com.zzyl.entity.NursingPlan">
+        select *
+        from nursing_plan
+        where id = #{id}
+    </select>
 </mapper>
