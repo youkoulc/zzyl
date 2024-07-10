@@ -2,8 +2,12 @@ package com.zzyl.controller;
 
 import com.zzyl.base.ResponseResult;
 import com.zzyl.dto.LoginDto;
+import com.zzyl.service.LoginService;
 import com.zzyl.utils.JwtUtil;
 import com.zzyl.vo.UserVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,19 +20,23 @@ import java.util.Map;
  * 后台登录临时接口，后期会进行改造
  */
 @RestController
+@Api(tags ="登录")
 public class LoginController {
-
+    @Autowired
+    private LoginService loginService;
 
     @PostMapping("/security/login")
+    @ApiOperation("登录")
     public ResponseResult login(@RequestBody LoginDto loginDto){
 
-        UserVo userVo = new UserVo();
+        UserVo userVo=loginService.login(loginDto);
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("username",loginDto.getUsername());
+        if (userVo != null) {
+            return ResponseResult.success(userVo);
+        }else {
+            return ResponseResult.error("用户名或密码错误，请重试");
+        }
 
-        userVo.setUserToken(JwtUtil.createJWT("itheima",600000,map));
-        return ResponseResult.success(userVo);
     }
 
     @GetMapping("/resource/menus")
