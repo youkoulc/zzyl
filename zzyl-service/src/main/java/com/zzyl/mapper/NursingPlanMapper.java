@@ -26,16 +26,16 @@ public interface NursingPlanMapper {
      * 根据id删除护理计划
      * @param id
      */
-    void deleteNursingPlan(Integer id);
-    void deleteNursingProjectPlan(Integer id);
+    void deleteNursingPlan(Long id);
+    void deleteNursingProjectPlan(Long id);
 
     /**
      * 根据id获取护理计划
      * @param
      * @return
      */
-    NursingPlan getById(Integer id);
-    List<NursingProjectPlanVo> getProjectPlan(Integer id);
+    NursingPlan getById(Long id);
+    List<NursingProjectPlanVo> getProjectPlan(Long id);
 
     /**
      *  更新护理计划
@@ -43,5 +43,5 @@ public interface NursingPlanMapper {
      */
     void updateNursingPlan(NursingPlan nursingPlan);
 
-    NursingPlan selectById(Integer id);
+    NursingPlan selectById(Long id);
 }

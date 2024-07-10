@@ -75,7 +75,7 @@ public class NursingLevelController extends BaseController {
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询护理等级")
-    public ResponseResult<NursingLevelVo> getById(@ApiParam("护理等级id") @PathVariable Integer id) {
+    public ResponseResult<NursingLevelVo> getById(@ApiParam("护理等级id") @PathVariable Long id) {
         NursingLevelVo nursingLevelVo = nursingLevelService.getById(id);
         return success(nursingLevelVo);
     }
@@ -100,7 +100,7 @@ public class NursingLevelController extends BaseController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation("删除护理等级")
-    public ResponseResult delete(@ApiParam("护理等级id") @PathVariable Integer id){
+    public ResponseResult delete(@ApiParam("护理等级id") @PathVariable Long id){
         nursingLevelService.delete(id);
         return success();
     }
@@ -115,7 +115,7 @@ public class NursingLevelController extends BaseController {
     @ApiOperation("启用禁用")
     @ApiImplicitParams({@ApiImplicitParam(value = "护理等级id", name = "id", required = true),
             @ApiImplicitParam(value = "护理等级状态", name = "status", required = true)})
-    public ResponseResult switchStatus( @PathVariable Integer id, @PathVariable Integer status){
+    public ResponseResult switchStatus( @PathVariable Long id, @PathVariable Integer status){
         nursingLevelService.switchStatus(id,status);
         return success();
     }

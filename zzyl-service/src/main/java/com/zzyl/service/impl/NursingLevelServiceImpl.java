@@ -71,7 +71,7 @@ public class NursingLevelServiceImpl implements NursingLevelService {
      * @return
      */
     @Override
-    public NursingLevelVo getById(Integer id) {
+    public NursingLevelVo getById(Long id) {
         return nursingLevelMapper.selectById(id);
     }
 
@@ -94,7 +94,7 @@ public class NursingLevelServiceImpl implements NursingLevelService {
      * @return
      */
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         nursingLevelMapper.deleteById(id);
     }
 
@@ -106,7 +106,7 @@ public class NursingLevelServiceImpl implements NursingLevelService {
      * @return
      */
     @Override
-    public void switchStatus(Integer id, Integer status) {
+    public void switchStatus(Long id, Integer status) {
         NursingLevelVo nursingLevelVo = nursingLevelMapper.selectById(id);
         nursingLevelVo.setStatus(status);
         nursingLevelMapper.update(BeanUtil.toBean(nursingLevelVo, NursingLevel.class));

@@ -92,7 +92,7 @@ public class NursingPlanServiceImpl implements NursingPlanService {
      * @param id
      */
     @Override
-    public void deleteNursingPlan(Integer id) {
+    public void deleteNursingPlan(Long id) {
         nursingPlanMapper.deleteNursingPlan(id);
         nursingPlanMapper.deleteNursingProjectPlan(id);
     }
@@ -104,7 +104,7 @@ public class NursingPlanServiceImpl implements NursingPlanService {
      * @return
      */
     @Override
-    public NursingPlanVo getById(Integer id) {
+    public NursingPlanVo getById(Long id) {
         NursingPlan nursingPlan = nursingPlanMapper.getById(id);
         List<NursingProjectPlanVo> projectPlanList = nursingPlanMapper.getProjectPlan(id);
         nursingPlan.setProjectPlans(projectPlanList);
@@ -144,7 +144,7 @@ public class NursingPlanServiceImpl implements NursingPlanService {
      */
 
     @Override
-    public void updateStatus(Integer id, Integer status) {
+    public void updateStatus(Long id, Integer status) {
         //根据id更新护理计划
          NursingPlan nursingPlan = nursingPlanMapper.selectById(id);
         //更新状态

@@ -35,14 +35,14 @@ public interface NursingPlanService {
      * 删除护理计划
      * @param id
      */
-    void deleteNursingPlan(Integer id);
+    void deleteNursingPlan(Long id);
 
     /**
      * 根据id获取护理计划
      * @param id
      * @return
      */
-    NursingPlanVo getById(Integer id);
+    NursingPlanVo getById(Long id);
 
     /**
      * 更新护理计划
@@ -55,5 +55,5 @@ public interface NursingPlanService {
      * @param id
      * @param status
      */
-    void updateStatus(Integer id, Integer status);
+    void updateStatus(Long id, Integer status);
 }
