@@ -122,7 +122,7 @@ public class NursingPlanServiceImpl implements NursingPlanService {
         NursingPlan nursingPlan = BeanUtil.toBean(nursingPlanDto, NursingPlan.class);
         nursingPlanMapper.updateNursingPlan(nursingPlan);
 //先删除原有项目计划
-        nursingPlanMapper.deleteNursingProjectPlan(Math.toIntExact(nursingPlan.getId()));
+        nursingPlanMapper.deleteNursingProjectPlan(nursingPlan.getId());
         List<NursingProjectPlanDto> projectPlanDtos = nursingPlanDto.getProjectPlans();
         if (projectPlanDtos != null && !projectPlanDtos.isEmpty()) {
 
