@@ -4,9 +4,11 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description HuToolTest
@@ -77,5 +79,44 @@ public class HuToolTest {
         if(response.getStatus() == 200){
             System.out.println(response.body());
         }
+    }
+    
+    @Test
+    public void testmj() {
+        String host = "https://aliv18.data.moji.com";
+        String path = "/whapi/json/alicityweather/forecast24hours";
+        String method = "POST";
+        String appcode = "9e425b4330a74ff593ee9afea9c01dfa";
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        //根据API的要求，定义相对应的Content-Type
+        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+        Map<String, Object> bodys = new HashMap<String, Object>();
+        bodys.put("cityId", "2");
+
+        HttpResponse response = HttpUtil.createRequest(Method.POST, host + path).headerMap(headers, true).form(bodys).execute();
+        System.out.println("response = " + response.body());
+    }
+    @Test
+    public void testkd() {
+        String host = "https://lhkdcx.market.alicloudapi.com";
+        String path = "/express/query";
+        String method = "POST";
+        String appcode = "9e425b4330a74ff593ee9afea9c01dfa";
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        //根据API的要求，定义相对应的Content-Type
+        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+       
+        Map<String, String> bodys = new HashMap<String, String>();
+        // bodys.put("expressNo", "expressNo");
+        bodys.put("waybillNo", "75616046538073");
+        // bodys.put("mobile", "mobile");
+
+        HttpResponse response = HttpUtil.createRequest(Method.POST, host + path).headerMap(headers, true).formStr(bodys).execute();
+        System.out.println("response.body() = " + response.body());
     }
 }
