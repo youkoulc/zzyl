@@ -70,9 +70,15 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public void add(ReservationDto reservationDto) {
-        // TODO
+        // 取消次数大于3次的不能预约
+        if (getCancelledCount(UserThreadLocal.getUserId())>=3){
+            throw new BaseException(BasicEnum.RESERVATION_CANCEL_COUNT_UPPER_LIMIT);x
+        }
+
         reservationDto.setStatus(0);
+
         Reservation reservation = BeanUtil.toBean(reservationDto, Reservation.class);
+        // 由于数据库已对手机号和时间这一组合做了整体性的唯一限制，如果已有错误，抛出异常
         try {
             reservationMapper.insert(reservation);
         } catch (Exception e) {
