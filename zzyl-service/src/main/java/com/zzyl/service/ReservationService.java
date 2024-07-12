@@ -1,6 +1,8 @@
 package com.zzyl.service;
 
+import com.zzyl.base.PageResponse;
 import com.zzyl.dto.ReservationDto;
+import com.zzyl.vo.ReservationVo;
 import com.zzyl.vo.TimeCountVo;
 
 import java.util.List;
@@ -28,4 +30,13 @@ public interface ReservationService {
      * @return
      */
     void add(ReservationDto reservationDto);
+
+    /**
+     * 分页查询预约记录
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    PageResponse<ReservationVo> getByPage(Integer pageNum, Integer pageSize, Integer status);
 }

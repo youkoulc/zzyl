@@ -3,12 +3,16 @@ package com.zzyl.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.zzyl.base.PageResponse;
 import com.zzyl.dto.ReservationDto;
 import com.zzyl.entity.Reservation;
 import com.zzyl.enums.BasicEnum;
 import com.zzyl.exception.BaseException;
 import com.zzyl.mapper.ReservationMapper;
 import com.zzyl.service.ReservationService;
+import com.zzyl.vo.ReservationVo;
 import com.zzyl.vo.TimeCountVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,6 +71,7 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public void add(ReservationDto reservationDto) {
+        // TODO
         reservationDto.setStatus(0);
         Reservation reservation = BeanUtil.toBean(reservationDto, Reservation.class);
         try {
@@ -74,5 +79,22 @@ public class ReservationServiceImpl implements ReservationService {
         } catch (Exception e) {
             throw new BaseException(BasicEnum.TIME_ALREADY_RESERVATED_BY_PHONE);
         }
+    }
+
+    /**
+     * 分页查询预约记录
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    @Override
+    public PageResponse<ReservationVo> getByPage(Integer pageNum, Integer pageSize, Integer status) {
+        PageHelper.startPage(pageNum,pageSize);
+        Page<ReservationVo> page =reservationMapper.selectByPage(status);
+        PageResponse<ReservationVo> pageResponse = new PageResponse<>(page);
+        pageResponse.setRecords(page.getResult());
+        return pageResponse;
     }
 }

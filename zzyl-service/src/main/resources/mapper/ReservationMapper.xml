@@ -21,5 +21,14 @@
         select time,(6-count(*)) count from reservation
         where create_time between #{beganTime} and #{endTime}
     </select>
+    <!--分页查询-->
+    <select id="selectByPage" resultType="com.zzyl.vo.ReservationVo">
+        select *
+        from reservation
+        <where>
+            <if test="status !=null and status !=''">status=#{status}</if>
+        </where>
+        order by update_time
+    </select>
 
 </mapper>

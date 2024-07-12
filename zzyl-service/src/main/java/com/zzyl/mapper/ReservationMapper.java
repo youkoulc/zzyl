@@ -1,6 +1,8 @@
 package com.zzyl.mapper;
 
+import com.github.pagehelper.Page;
 import com.zzyl.entity.Reservation;
+import com.zzyl.vo.ReservationVo;
 import com.zzyl.vo.TimeCountVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -34,4 +36,14 @@ public interface ReservationMapper {
      * @return
      */
     void insert(Reservation reservation);
+
+    /**
+     * 分页查询预约记录
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    Page<ReservationVo> selectByPage(Integer status);
 }
