@@ -4,9 +4,15 @@
     <!--查询取消预约数量-->
     <select id="selectCancelledCount" resultType="java.lang.Integer">
         select count(*)
-        from reservation
+        from zzyl2.reservation
         where create_by = #{userId}
           and status = 2
           and create_time between #{zero} and #{now}
+    </select>
+
+    <!--查询指定时间当天每个时间段剩余预约次数-->
+    <select id="selectCountByTime" resultType="com.zzyl.vo.TimeCountVo">
+        select time,(6-count(*)) count from reservation
+        where create_time between #{beganTime} and #{endTime}
     </select>
 </mapper>

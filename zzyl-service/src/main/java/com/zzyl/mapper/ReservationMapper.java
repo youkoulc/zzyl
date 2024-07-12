@@ -1,8 +1,10 @@
 package com.zzyl.mapper;
 
+import com.zzyl.vo.TimeCountVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Description ReservationMapper
@@ -16,5 +18,13 @@ public interface ReservationMapper {
      * @return
      */
     Integer selectCancelledCount(Long userId, LocalDateTime zero, LocalDateTime now);
+
+
+    /**
+     * 查询指定时间当天每个时间段剩余预约次数
+     *
+     * @param
+     */
+    List<TimeCountVo> selectCountByTime(LocalDateTime beganTime, LocalDateTime endTime);
 
 }
