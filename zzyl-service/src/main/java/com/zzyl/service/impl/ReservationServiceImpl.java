@@ -1,7 +1,12 @@
 package com.zzyl.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import com.zzyl.dto.ReservationDto;
+import com.zzyl.entity.Reservation;
+import com.zzyl.enums.BasicEnum;
+import com.zzyl.exception.BaseException;
 import com.zzyl.mapper.ReservationMapper;
 import com.zzyl.service.ReservationService;
 import com.zzyl.vo.TimeCountVo;
@@ -52,5 +57,22 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<TimeCountVo> timeCountVoList=reservationMapper.selectCountByTime(localDateTime,localDateTime.plusDays(1));
         return timeCountVoList;
+    }
+
+    /**
+     * 新增预约
+     *
+     * @param reservationDto
+     * @return
+     */
+    @Override
+    public void add(ReservationDto reservationDto) {
+        reservationDto.setStatus(0);
+        Reservation reservation = BeanUtil.toBean(reservationDto, Reservation.class);
+        try {
+            reservationMapper.insert(reservation);
+        } catch (Exception e) {
+            throw new BaseException(BasicEnum.TIME_ALREADY_RESERVATED_BY_PHONE);
+        }
     }
 }

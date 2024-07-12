@@ -1,5 +1,6 @@
 package com.zzyl.service;
 
+import com.zzyl.dto.ReservationDto;
 import com.zzyl.vo.TimeCountVo;
 
 import java.util.List;
@@ -20,4 +21,11 @@ public interface ReservationService {
      * 查询每个时间段剩余预约次数
      */
     List<TimeCountVo> getCountByTime(Long time);
+
+    /**
+     * 新增预约
+     * @param reservationDto
+     * @return
+     */
+    void add(ReservationDto reservationDto);
 }

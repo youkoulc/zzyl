@@ -1,5 +1,6 @@
 package com.zzyl.mapper;
 
+import com.zzyl.entity.Reservation;
 import com.zzyl.vo.TimeCountVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +28,10 @@ public interface ReservationMapper {
      */
     List<TimeCountVo> selectCountByTime(LocalDateTime beganTime, LocalDateTime endTime);
 
+    /**
+     * 新增预约
+     * @param reservation
+     * @return
+     */
+    void insert(Reservation reservation);
 }

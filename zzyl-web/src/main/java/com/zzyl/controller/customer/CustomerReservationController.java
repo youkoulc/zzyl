@@ -2,6 +2,7 @@ package com.zzyl.controller.customer;
 
 import com.zzyl.base.ResponseResult;
 import com.zzyl.controller.BaseController;
+import com.zzyl.dto.ReservationDto;
 import com.zzyl.service.ReservationService;
 import com.zzyl.utils.UserThreadLocal;
 import com.zzyl.vo.TimeCountVo;
@@ -9,9 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,4 +47,16 @@ public class CustomerReservationController extends BaseController {
         List<TimeCountVo> timeCountVoList=reservationService.getCountByTime(time);
         return success(timeCountVoList);
     }
+
+    /**
+     * 新增预约
+     * @param reservationDto
+     * @return
+     */
+    @PostMapping
+    @ApiOperation("新增预约")
+    public ResponseResult add(@RequestBody ReservationDto reservationDto){
+        reservationService.add(reservationDto);
+        return success();
+    } 
 }
