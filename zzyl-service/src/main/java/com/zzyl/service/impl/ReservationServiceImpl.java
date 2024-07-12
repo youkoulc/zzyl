@@ -12,6 +12,7 @@ import com.zzyl.enums.BasicEnum;
 import com.zzyl.exception.BaseException;
 import com.zzyl.mapper.ReservationMapper;
 import com.zzyl.service.ReservationService;
+import com.zzyl.utils.UserThreadLocal;
 import com.zzyl.vo.ReservationVo;
 import com.zzyl.vo.TimeCountVo;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Integer getCancelledCount(Long userId) {
         Integer count=reservationMapper.selectCancelledCount(userId, LocalDateTimeUtil.beginOfDay(LocalDateTime.now()),LocalDateTime.now());
-        if (count == null) {
-            count =0;
-        }
+
         return count;
     }
 
@@ -96,5 +95,17 @@ public class ReservationServiceImpl implements ReservationService {
         PageResponse<ReservationVo> pageResponse = new PageResponse<>(page);
         pageResponse.setRecords(page.getResult());
         return pageResponse;
+    }
+
+    /**
+     * 取消预约
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public void cancel(Long id) {
+        Long userId = UserThreadLocal.getUserId();
+        reservationMapper.cancel(userId,id);
     }
 }

@@ -80,4 +80,16 @@ public class CustomerReservationController extends BaseController {
         PageResponse<ReservationVo> pageResponse=reservationService.getByPage(pageNum,pageSize,status);
         return success(pageResponse);
     }
+
+    /**
+     * 取消预约
+     * @param id
+     * @return
+     */
+    @PutMapping("/{id}/cancel")
+    @ApiOperation("取消预约")
+    public ResponseResult cancel(@ApiParam("预约信息ID") @PathVariable Long id){
+        reservationService.cancel(id);
+        return success();
+    } 
 }

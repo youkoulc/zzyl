@@ -7,6 +7,9 @@
                                  update_by, remark)
         values (#{name},#{mobile},#{time},#{visitor},#{type},#{status},#{createTime},#{updateTime},#{createBy},#{updateBy},#{remark})
     </insert>
+    <update id="cancel">
+        update reservation set status=2 where create_by=#{userId} and id=#{id}
+    </update>
     <!--查询取消预约数量-->
     <select id="selectCancelledCount" resultType="java.lang.Integer">
         select count(*)

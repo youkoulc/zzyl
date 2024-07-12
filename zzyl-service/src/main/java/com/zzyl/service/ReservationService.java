@@ -39,4 +39,11 @@ public interface ReservationService {
      * @return
      */
     PageResponse<ReservationVo> getByPage(Integer pageNum, Integer pageSize, Integer status);
+
+    /**
+     * 取消预约
+     * @param id
+     * @return
+     */
+    void cancel(Long id);
 }

@@ -46,4 +46,11 @@ public interface ReservationMapper {
      * @return
      */
     Page<ReservationVo> selectByPage(Integer status);
+
+    /**
+     * 取消预约
+     * @param id
+     * @return
+     */
+    void cancel(Long userId, Long id);
 }
