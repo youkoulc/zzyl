@@ -72,7 +72,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void add(ReservationDto reservationDto) {
         // 取消次数大于3次的不能预约
         if (getCancelledCount(UserThreadLocal.getUserId())>=3){
-            throw new BaseException(BasicEnum.RESERVATION_CANCEL_COUNT_UPPER_LIMIT);x
+            throw new BaseException(BasicEnum.RESERVATION_CANCEL_COUNT_UPPER_LIMIT);
         }
 
         reservationDto.setStatus(0);
