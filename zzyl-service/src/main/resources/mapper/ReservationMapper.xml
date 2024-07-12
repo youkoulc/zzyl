@@ -10,6 +10,12 @@
     <update id="cancel">
         update reservation set status=2 where create_by=#{userId} and id=#{id}
     </update>
+    <update id="autoUpdate">
+        update reservation
+        set status = 3
+        where status = 0
+          and now() > time
+    </update>
     <!--查询取消预约数量-->
     <select id="selectCancelledCount" resultType="java.lang.Integer">
         select count(*)
@@ -26,10 +32,10 @@
     </select>
     <!--分页查询-->
     <select id="selectByPage" resultType="com.zzyl.vo.ReservationVo">
-        select *
-        from reservation
+        select r.*,member.name creator
+        from reservation r left join member on r.create_by=member.id
         <where>
-            <if test="status !=null and status !=''">status=#{status}</if>
+            <if test="status !=null">status=#{status}</if>
         </where>
         order by update_time
     </select>

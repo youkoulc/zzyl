@@ -16,6 +16,7 @@ import com.zzyl.utils.UserThreadLocal;
 import com.zzyl.vo.ReservationVo;
 import com.zzyl.vo.TimeCountVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -114,4 +115,13 @@ public class ReservationServiceImpl implements ReservationService {
         Long userId = UserThreadLocal.getUserId();
         reservationMapper.cancel(userId,id);
     }
+
+    /**
+     * 自动设置过期时间
+     */
+    @Scheduled(cron = "0 1,31 * * * *")
+    void autoExpiration() {
+        reservationMapper.autoUpdate();
+    }
+
 }

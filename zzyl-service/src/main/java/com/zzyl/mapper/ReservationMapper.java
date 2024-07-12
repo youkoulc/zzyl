@@ -53,4 +53,9 @@ public interface ReservationMapper {
      * @return
      */
     void cancel(Long userId, Long id);
+
+    /**
+     * 自动设置过期时间
+     */
+    void autoUpdate();
 }

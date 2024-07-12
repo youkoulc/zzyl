@@ -91,5 +91,5 @@ public class CustomerReservationController extends BaseController {
     public ResponseResult cancel(@ApiParam("预约信息ID") @PathVariable Long id){
         reservationService.cancel(id);
         return success();
-    } 
+    }
 }
