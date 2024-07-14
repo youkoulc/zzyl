@@ -38,4 +38,7 @@
         </set>
         WHERE id = #{id}
     </update>
+    <select id="selectByOpenId" resultType="com.zzyl.entity.Member">
+        select * from zzyl.member where open_id = #{openId}
+    </select>
 </mapper>

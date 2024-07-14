@@ -16,7 +16,7 @@ public interface MemberMapper {
      * @param OpenId
      * @return
      */
-    @Select("select * from zzyl.member where open_id = #{openId}")
+    // @Select("select * from zzyl.member where open_id = #{openId}")
     Member selectByOpenId(String OpenId);
 
     public void insert(Member member);

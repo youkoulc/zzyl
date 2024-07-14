@@ -58,8 +58,9 @@ public class MemberServiceImpl implements MemberService {
 
         // 如果客户为空，则创建用户，赋值openId
         if (ObjectUtil.isEmpty(member)) {
-            member = new Member();
-            member.setOpenId(openId);
+            // member = new Member();
+            // member = Member.builder().openId(openId).build();
+            // member.setOpenId(openId);
         }
 
         // 远程调用接口 获取手机号

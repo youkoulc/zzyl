@@ -45,7 +45,7 @@ public interface ReservationMapper {
      * @param status
      * @return
      */
-    Page<ReservationVo> selectByPage(Integer status);
+    Page<ReservationVo> selectByPage(Integer status,Long userId);
 
     /**
      * 取消预约
@@ -58,4 +58,10 @@ public interface ReservationMapper {
      * 自动设置过期时间
      */
     void autoUpdate();
+
+    /**
+     * 更新
+     * @param reservation
+     */
+    void update(Reservation reservation);
 }

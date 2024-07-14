@@ -5,6 +5,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import cn.hutool.json.JSONUtil;
+import cn.hutool.jwt.JWTUtil;
 import com.alibaba.druid.sql.visitor.SQLASTOutputVisitor;
 import org.junit.jupiter.api.Test;
 
@@ -137,5 +138,6 @@ public class HuToolTest {
             list.add(newTime);
         }
         System.out.println("list = " + list);
+
     }
 }

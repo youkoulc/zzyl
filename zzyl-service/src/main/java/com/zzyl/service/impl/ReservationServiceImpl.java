@@ -98,7 +98,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public PageResponse<ReservationVo> getByPage(Integer pageNum, Integer pageSize, Integer status) {
         PageHelper.startPage(pageNum,pageSize);
-        Page<ReservationVo> page =reservationMapper.selectByPage(status);
+        Long userId = UserThreadLocal.getUserId();
+        // TODO 如果是管理员，ID设为null
+        Page<ReservationVo> page =reservationMapper.selectByPage(status,userId);
         PageResponse<ReservationVo> pageResponse = new PageResponse<>(page);
         pageResponse.setRecords(page.getResult());
         return pageResponse;
@@ -124,4 +126,12 @@ public class ReservationServiceImpl implements ReservationService {
         reservationMapper.autoUpdate();
     }
 
+    /**
+     * 更新
+     * @param reservationDto
+     */
+    public void update(ReservationDto reservationDto){
+        Reservation reservation = BeanUtil.toBean(reservationDto, Reservation.class);
+        reservationMapper.update(reservation);
+    }
 }
