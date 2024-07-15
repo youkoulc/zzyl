@@ -1,5 +1,7 @@
 package com.zzyl.mapper;
 
+import com.github.pagehelper.Page;
+import com.zzyl.dto.RoleDto;
 import com.zzyl.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +30,14 @@ public interface RoleMapper {
      * @author hewei
      */
     int batchInsert(@Param("list") List<Role> list);
+
+    /**
+     * 角色分页
+     *
+     * @param roleDto
+     * @param
+     * @param
+     * @return
+     */
+    Page<Role> selectByPage(RoleDto roleDto);
 }

@@ -25,7 +25,17 @@
     from sys_role
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <select id="selectByPage" resultType="com.zzyl.entity.Role">
+      select <include refid="Base_Column_List"></include>
+      from zzyl.sys_role
+      <where>
+        <if test="roleName!=null and roleName!=''">
+          and role_name like concat('%',#{roleName},'%')
+        </if>
+      </where>
+      order by create_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_role
     where id = #{id,jdbcType=BIGINT}
   </delete>
