@@ -112,4 +112,18 @@ public class RoleServiceImpl implements RoleService {
             roleResourceMapper.batchInsert(roleResourceList);
         }
     }
+
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
+    @Transactional
+    @Override
+    public int deleteRoleById(Long roleId) {
+        // 删除角色与菜单关联
+        roleResourceMapper.deleteRoleResourceByRoleId(roleId);
+        // 再删除角色数据
+        return roleMapper.deleteByPrimaryKey(roleId);
+    }
 }

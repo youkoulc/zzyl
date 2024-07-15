@@ -40,4 +40,11 @@ public interface RoleService {
      * @return
      */
     void updateRole(RoleDto roleDto);
+
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
+    int deleteRoleById(Long roleId);
 }

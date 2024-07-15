@@ -77,5 +77,14 @@ public class RoleController {
     public ResponseResult updateRole(@RequestBody RoleDto roleDto){
         roleService.updateRole(roleDto);
         return ResponseResult.success();
-    } 
+    }
+
+    /**
+     * 删除角色
+     */
+    @ApiOperation("删除角色")
+    @DeleteMapping("/{roleId}")
+    public ResponseResult remove(@PathVariable("roleId") Long roleId) {
+        return ResponseResult.success(roleService.deleteRoleById(roleId));
+    }
 }
