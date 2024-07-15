@@ -2,6 +2,7 @@ package com.zzyl.service;
 
 import com.zzyl.dto.ResourceDto;
 import com.zzyl.vo.ResourceVo;
+import com.zzyl.vo.TreeVo;
 
 import java.util.List;
 
@@ -17,4 +18,18 @@ public interface ResourceService {
      * @return
      */
     List<ResourceVo> getResourceList(ResourceDto resourceDto);
+
+    /**
+     * 资源树形
+     * @param resourceDto
+     * @return
+     */
+    TreeVo resourceTreeVo(ResourceDto resourceDto);
+
+    /**
+     * 添加资源：新增菜单和新增按钮
+     * @param resourceDto
+     * @return
+     */
+    void createResource(ResourceDto resourceDto);
 }
