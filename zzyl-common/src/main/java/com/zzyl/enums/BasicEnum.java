@@ -41,6 +41,7 @@ public enum BasicEnum implements IBasicEnum {
     GET_OPENID_ERROR(1417, "小程序登录，获取openId失败"),
     GET_PHONE_ERROR(1418, "小程序登录，获取手机号失败"),
     GET_TOKEN_ERROR(1419, "小程序登录，获取token失败"),
+    ROLE_BINDING_USER(1420, "角色已绑定用户,不允许禁用"),
 
 
     //业务相关异常：1500-1599

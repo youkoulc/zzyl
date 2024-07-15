@@ -29,4 +29,7 @@ public interface RoleResourceMapper {
      * @author hewei
      */
     int batchInsert(@Param("list") List<RoleResource> list);
+
+    // 根据角色id删除角色资源关联数据
+    void deleteRoleResourceByRoleId(Long id);
 }

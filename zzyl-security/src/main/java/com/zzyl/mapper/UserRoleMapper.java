@@ -3,6 +3,7 @@ package com.zzyl.mapper;
 import com.zzyl.entity.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -29,4 +30,7 @@ public interface UserRoleMapper {
      * @author hewei
      */
     int batchInsert(@Param("list") List<UserRole> list);
+    // 根据角色id查找有无关联用户
+    @Select("select user_id from zzyl.sys_user_role where role_id=#{roleId}")
+    Long selectByRoleId(Long roleId);
 }

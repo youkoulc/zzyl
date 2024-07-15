@@ -28,6 +28,11 @@
     delete from sys_role_resource
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteRoleResourceByRoleId">
+    delete
+    from sys_role_resource
+           where role_id =#{roleId}
+  </delete>
 
   <insert id="insert" parameterType="com.zzyl.entity.RoleResource">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">

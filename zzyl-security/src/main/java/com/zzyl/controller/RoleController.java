@@ -66,4 +66,16 @@ public class RoleController {
         Set<String> resources= roleService.findCheckedResources(roleId);
         return ResponseResult.success(resources);
     }
+
+    /**
+     * 角色修改
+     * @param roleDto
+     * @return
+     */
+    @PatchMapping
+    @ApiOperation("角色修改")
+    public ResponseResult updateRole(@RequestBody RoleDto roleDto){
+        roleService.updateRole(roleDto);
+        return ResponseResult.success();
+    } 
 }
