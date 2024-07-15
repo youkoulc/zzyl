@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 /**
  * @Description RoleServiceImpl
  * @Author HeFeng
@@ -43,5 +45,16 @@ public class RoleServiceImpl implements RoleService {
         //转换RoleVo为Role
         Role role = BeanUtil.toBean(roleDto, Role.class);
         roleMapper.insert(role);
+    }
+
+    /**
+     * 根据角色查询选中的资源数据
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public Set<String> findCheckedResources(Long roleId) {
+        return roleMapper.selectResourceNoByRoleId(roleId);
     }
 }

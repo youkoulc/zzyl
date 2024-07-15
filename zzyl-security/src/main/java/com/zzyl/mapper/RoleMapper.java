@@ -5,8 +5,10 @@ import com.zzyl.dto.RoleDto;
 import com.zzyl.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface RoleMapper {
@@ -40,4 +42,12 @@ public interface RoleMapper {
      * @return
      */
     Page<Role> selectByPage(RoleDto roleDto);
+
+    /**
+     * 根据角色查询选中的资源数据
+     * @param roleId
+     * @return
+     */
+    @Select("select resource_no from sys_role_resource where role_id=#{roleId};")
+    Set<String> selectResourceNoByRoleId(Long roleId);
 }

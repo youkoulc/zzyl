@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 /**
  * @Description RoleController
  * @Author HeFeng
@@ -51,5 +53,17 @@ public class RoleController {
     public ResponseResult createRole(@RequestBody RoleDto roleDto) {
         roleService.createRole(roleDto);
         return ResponseResult.success();
+    }
+
+    /**
+     * 根据角色查询选中的资源数据
+     * @param roleId
+     * @return
+     */
+    @ApiOperation(value = "根据角色查询选中的资源数据")
+    @GetMapping("/find-checked-resources/{roleId}")
+    public ResponseResult<Set<String>> findCheckedResources(@PathVariable("roleId") Long roleId){
+        Set<String> resources= roleService.findCheckedResources(roleId);
+        return ResponseResult.success(resources);
     }
 }
