@@ -18,4 +18,18 @@ public interface UserService {
      * @return
      */
     PageResponse<UserVo> getByPage(UserDto userDto, Integer pageNum, Integer pageSize);
+
+    /**
+     * 添加用户
+     * @param userDto
+     * @return
+     */
+    void createUser(UserDto userDto);
+
+    /**
+     * 用户修改
+     * @param userDto
+     * @return
+     */
+    void updateUser(UserDto userDto);
 }

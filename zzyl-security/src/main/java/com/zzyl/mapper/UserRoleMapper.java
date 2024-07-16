@@ -1,6 +1,7 @@
 package com.zzyl.mapper;
 
 import com.zzyl.entity.UserRole;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -33,4 +34,7 @@ public interface UserRoleMapper {
     // 根据角色id查找有无关联用户
     @Select("select user_id from zzyl.sys_user_role where role_id=#{roleId}")
     Long selectByRoleId(Long roleId);
+
+    @Delete("delete from zzyl.sys_user_role where user_id = #{userId}")
+    void deleteByUserId(Long userId);
 }
