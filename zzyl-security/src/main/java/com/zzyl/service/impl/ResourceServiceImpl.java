@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Description ResourceServiceImpl
@@ -81,7 +82,8 @@ public class ResourceServiceImpl implements ResourceService {
         // 5.将List<Tree<String>>转换为List<TreeItemVo>的智慧养老院的children
         List<TreeItemVo> children = BeanUtil.copyToList(treeList, TreeItemVo.class);
         // 6.自定义智慧养老院TreeItemVO对象，封装children集合
-        TreeItemVo treeItemVo = TreeItemVo.builder().id(SuperConstant.ROOT_PARENT_ID)
+        TreeItemVo treeItemVo = TreeItemVo.builder()
+                .id(SuperConstant.ROOT_PARENT_ID)
                 .label("智慧养老院")
                 .children(children).build();
         // 7.items添加智慧养老院对象
@@ -116,6 +118,70 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     /**
+     * 资源修改
+     *
+     * @param resourceDto
+     * @return
+     */
+    @Override
+    public void updateResource(ResourceDto resourceDto) {
+        // 判断传入的父节点相对数据库是否有改变
+        Resource resource = BeanUtil.toBean(resourceDto, Resource.class);
+        Resource Originresource = resourceMapper.selectByPrimaryKey(resource.getId());
+        if (resource.getResourceType().equals(SuperConstant.MENU) &&
+                !resource.getParentResourceNo().equals(Originresource.getParentResourceNo())) {
+            // 不相等，即已修改，根据当前资源编号查找子资源列表
+            ResourceDto resourceDto1 = ResourceDto.builder().parentResourceNo(NoProcessing.processString(resource.getResourceNo())).build();
+            List<Resource> resourceSonList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto1, Resource.class));
+
+            // 如果子资源层级+父资源层级>=5，抛出异常
+            Optional<Long> OMax = resourceSonList.stream().filter(resource1 -> resource1.getResourceType().equals(SuperConstant.MENU)).map(resource1 -> Long.valueOf(resource1.getResourceNo()))
+                    .max(Comparator.comparing(Long::longValue));
+            if (OMax.isPresent()) {
+                System.out.println(String.valueOf(OMax.get()).substring(NoProcessing.processString(resource.getResourceNo()).length()));
+                if ((NoProcessing.processString(resource.getParentResourceNo()) + NoProcessing.processString(String.valueOf(OMax.get()).substring(resource.getResourceNo().length()))).length() / 3 >= 5) {
+                    throw new RuntimeException("该菜单绑定到指定上级菜单后，菜单层级将超出限制");
+                }
+            }
+
+            // 从数据库删除该菜单
+            resourceMapper.deleteByPrimaryKey(resource.getId());
+
+            // 根据新的父节点，创建菜单
+            // 2.同步父资源状态
+            // 根据父资源编号查询资源对象
+            Resource parentResource = resourceMapper.selectByParentResourceNo(resource.getParentResourceNo());
+            // 同步状态
+            resource.setDataState(parentResource.getDataState());
+            // 3.生成子资源编号
+            String resourceNo = createResourceNo(resource);
+            resource.setResourceNo(resourceNo);
+            // 4.插入数据库
+            resourceMapper.insertSelective(resource);
+
+            // TODO 只提取了一级菜单
+            resourceSonList.forEach(resource1 -> {
+                // 如果为下一级
+                if (resource1.getParentResourceNo().equals(Originresource.getResourceNo())) {
+
+                    resource1.setParentResourceNo(resourceNo);
+
+                    String resource1No = createResourceNo(resource1);
+                    resource1.setResourceNo(resource1No);
+                    resourceMapper.updateByPrimaryKeySelective(resource1);
+                } else {
+
+                }
+
+            });
+        }
+
+        // 相等，即没改变，直接修改
+        resourceMapper.updateByPrimaryKeySelective(resource);
+    }
+
+
+    /**
      * 生成资源编号
      *
      * @param resource
@@ -132,20 +198,75 @@ public class ResourceServiceImpl implements ResourceService {
         ResourceDto resourceDto = ResourceDto.builder().parentResourceNo(resource.getParentResourceNo()).build();
         List<Resource> resourceList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto, Resource.class));
         // 3.判断子节点列表是否为空
-        String resourceNo="";
+        String resourceNo = "";
         if (ObjectUtil.isNotEmpty(resourceList)) {
             // 3.1 有
             // 获取最大子节点编号
             Long maxNo = resourceList.stream().map(resource1 -> Long.valueOf(resource1.getResourceNo()))
                     .max(Comparator.comparing(Long::longValue)).get();
             // 调用工具类子节点编号+1的算法
-           resourceNo = NoProcessing.createNo(maxNo.toString(), true);
+            resourceNo = NoProcessing.createNo(maxNo.toString(), true);
         } else {
             // 3.2 没有
             // 调用工具类生成第一个子节点，拼接001
-            resourceNo=NoProcessing.createNo(resource.getParentResourceNo(),false);
+            resourceNo = NoProcessing.createNo(resource.getParentResourceNo(), false);
         }
         // 4.返回编号
         return resourceNo;
+    }
+
+    /**
+     * 资源启用禁用
+     *
+     * @param resourceDto
+     * @return
+     */
+    @Override
+    public void updateDateState(ResourceDto resourceDto) {
+        // 启用时，如果父资源禁用，子资源不允许启用
+        if (resourceDto.getDataState().equals(SuperConstant.DATA_STATE_0)) {
+            Resource parentResource = resourceMapper.selectByParentResourceNo(resourceDto.getParentResourceNo());
+            if (ObjectUtil.isNotEmpty(parentResource) && parentResource.getDataState().equals(SuperConstant.DATA_STATE_1)){
+                throw new BaseException(BasicEnum.PARENT_MENU_DISABLE);
+            }
+        }
+
+        // 根据当前资源编号查找子资源列表
+        Resource resource = BeanUtil.toBean(resourceDto, Resource.class);
+        ResourceDto resourceDto1 = ResourceDto.builder().parentResourceNo(NoProcessing.processString(resource.getResourceNo())).build();
+        List<Resource> resourceSonList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto1, Resource.class));
+
+        // 遍历子菜单，修改子资源状态
+        resourceSonList.forEach(resource1 -> {
+            resource1.setDataState(resourceDto.getDataState());
+            resourceMapper.updateByPrimaryKeySelective(resource1);
+        });
+
+        // 返回当前资源对象，修改状态
+        Resource resource0 = resourceMapper.selectByParentResourceNo(resourceDto.getResourceNo());
+        resource0.setDataState(resourceDto.getDataState());
+        resourceMapper.updateByPrimaryKeySelective(resource0);
+    }
+
+    /**
+     * 删除菜单
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public void delete(Long menuId) {
+
+        Resource resource = resourceMapper.selectByPrimaryKey(menuId);
+        if (resource.getDataState().equals(SuperConstant.DATA_STATE_0)){
+            throw new RuntimeException("菜单启用状态,不能删除");
+        }
+        // 根据当前资源编号查找子资源列表
+        ResourceDto resourceDto1 = ResourceDto.builder().parentResourceNo(NoProcessing.processString(resource.getResourceNo())).build();
+        List<Resource> resourceSonList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto1, Resource.class));
+        if (ObjectUtil.isEmpty(resourceSonList)){
+            throw new RuntimeException("存在子菜单,不允许删除");
+        }
+        resourceMapper.deleteByPrimaryKey(menuId);
     }
 }

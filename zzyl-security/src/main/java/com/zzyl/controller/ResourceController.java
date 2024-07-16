@@ -77,4 +77,41 @@ public class ResourceController {
         resourceService.createResource(resourceDto);
         return ResponseResult.success();
     }
+
+    /**
+     * 资源修改
+     * @param resourceDto
+     * @return
+     */
+    @PatchMapping
+    @ApiOperation("资源修改")
+    public ResponseResult updateResource(@RequestBody ResourceDto resourceDto){
+        resourceService.updateResource(resourceDto);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 资源启用禁用
+     * @param resourceDto
+     * @return
+     */
+    @PostMapping("/enable")
+    @ApiOperation("资源启用禁用")
+    public ResponseResult updateDateState(@RequestBody ResourceDto resourceDto ){
+        resourceService.updateDateState(resourceDto);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 删除菜单
+     * @param menuId
+     * @return
+     */
+    @DeleteMapping("/{menuId}")
+    @ApiOperation("删除菜单")
+    public ResponseResult delete(@PathVariable Long menuId ){
+        resourceService.delete(menuId);
+        return ResponseResult.success();
+    }
+
 }

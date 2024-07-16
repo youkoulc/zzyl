@@ -32,4 +32,25 @@ public interface ResourceService {
      * @return
      */
     void createResource(ResourceDto resourceDto);
+
+    /**
+     * 资源修改
+     * @param resourceDto
+     * @return
+     */
+    void updateResource(ResourceDto resourceDto);
+
+    /**
+     * 资源启用禁用
+     * @param resourceDto
+     * @return
+     */
+    void updateDateState(ResourceDto resourceDto);
+
+    /**
+     * 删除菜单
+     * @param menuId
+     * @return
+     */
+    void delete(Long menuId);
 }
