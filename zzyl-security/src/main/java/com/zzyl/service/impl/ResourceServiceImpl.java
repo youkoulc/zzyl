@@ -10,6 +10,7 @@ import com.zzyl.entity.Resource;
 import com.zzyl.enums.BasicEnum;
 import com.zzyl.exception.BaseException;
 import com.zzyl.mapper.ResourceMapper;
+import com.zzyl.mapper.RoleResourceMapper;
 import com.zzyl.service.ResourceService;
 import com.zzyl.utils.NoProcessing;
 import com.zzyl.utils.ObjectUtil;
@@ -33,6 +34,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
     private final ResourceMapper resourceMapper;
+    private final RoleResourceMapper roleResourceMapper;
 
     /**
      * 获取资源列表
@@ -267,6 +269,13 @@ public class ResourceServiceImpl implements ResourceService {
         if (ObjectUtil.isEmpty(resourceSonList)){
             throw new RuntimeException("存在子菜单,不允许删除");
         }
+
+        // 如果角色已经关联，不允许删除
+        int checkedMenuExistRole = roleResourceMapper.checkMenuExistRole(resource.getResourceNo());
+        if (checkedMenuExistRole>0){
+            throw new RuntimeException("菜单已分配,不允许删除");
+        }
+
         resourceMapper.deleteByPrimaryKey(menuId);
     }
 }

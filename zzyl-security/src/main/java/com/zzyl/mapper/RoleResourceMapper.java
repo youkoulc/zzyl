@@ -3,6 +3,7 @@ package com.zzyl.mapper;
 import com.zzyl.entity.RoleResource;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -32,4 +33,8 @@ public interface RoleResourceMapper {
 
     // 根据角色id删除角色资源关联数据
     void deleteRoleResourceByRoleId(Long id);
+
+    // 根据资源编号查询角色关联
+    @Select(" select count(*) from sys_role_resource where resource_no = #{resourceNo}")
+    int checkMenuExistRole(String resourceNo);
 }
