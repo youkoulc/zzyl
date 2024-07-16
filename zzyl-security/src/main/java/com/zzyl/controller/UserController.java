@@ -7,9 +7,12 @@ import com.zzyl.mapper.UserMapper;
 import com.zzyl.service.UserService;
 import com.zzyl.vo.UserVo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Description UserController
@@ -42,6 +45,7 @@ public class UserController {
 
     /**
      * 添加用户
+     *
      * @param userDto
      * @return
      */
@@ -54,13 +58,47 @@ public class UserController {
 
     /**
      * 用户修改
+     *
      * @param userDto
      * @return
      */
     @PatchMapping
     @ApiOperation("用户修改")
-    public ResponseResult updateUser(@RequestBody UserDto userDto){
+    public ResponseResult updateUser(@RequestBody UserDto userDto) {
         userService.updateUser(userDto);
         return ResponseResult.success();
+    }
+
+    /**
+     * 删除用户
+     * @param userIds
+     * @return
+     */
+    @DeleteMapping("/remove/{userIds}")
+    @ApiOperation("用户删除")
+    public ResponseResult delete(@PathVariable Long userIds) {
+        userService.delete(userIds);
+        return ResponseResult.success();
+    }
+
+    /**
+     * 启用禁用
+     * @param id
+     * @param status
+     * @return
+     */
+    @PutMapping("/is-enable/{id}/{status}")
+    @ApiOperation("启用禁用")
+    public ResponseResult updateStatus(@PathVariable Long id,@PathVariable String status ){
+        userService.updateStatus(id,status);
+        return ResponseResult.success();
+    }
+
+    @PostMapping("/list")
+    @ApiOperation(value = "用户列表",notes = "用户列表")
+    @ApiImplicitParam(name = "userDto",value = "用户DTO对象",required = true,dataType = "UserDto")
+    public ResponseResult<List<UserVo>> userList(@RequestBody UserDto userDto) {
+        List<UserVo> userVoList = userService.findUserList(userDto);
+        return ResponseResult.success(userVoList);
     }
 }

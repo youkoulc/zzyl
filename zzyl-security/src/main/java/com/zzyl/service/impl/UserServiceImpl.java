@@ -8,6 +8,7 @@ import com.zzyl.base.PageResponse;
 import com.zzyl.base.ResponseResult;
 import com.zzyl.constant.SuperConstant;
 import com.zzyl.dto.UserDto;
+import com.zzyl.entity.Role;
 import com.zzyl.entity.User;
 import com.zzyl.entity.UserRole;
 import com.zzyl.mapper.RoleMapper;
@@ -133,5 +134,37 @@ public class UserServiceImpl implements UserService {
             return userRole;
         }).collect(Collectors.toList());
         userRoleMapper.batchInsert(userRoleList);
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userIds
+     * @return
+     */
+    @Override
+    public void delete(Long userIds) {
+        userMapper.deleteByPrimaryKey(userIds);
+        userRoleMapper.deleteByUserId(userIds);
+    }
+
+    /**
+     * 启用禁用
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    @Override
+    public void updateStatus(Long id, String status) {
+        User user = userMapper.selectByPrimaryKey(id);
+        user.setDataState(status);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public List<UserVo> findUserList(UserDto userDto) {
+        List<User> userList =  userMapper.selectList();
+        return BeanUtil.copyToList(userList,UserVo.class);
     }
 }

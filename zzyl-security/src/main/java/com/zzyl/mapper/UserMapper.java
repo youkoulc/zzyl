@@ -5,6 +5,7 @@ import com.zzyl.dto.UserDto;
 import com.zzyl.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -38,4 +39,7 @@ public interface UserMapper {
      * @return
      */
     Page<User> getByPage(UserDto userDto);
+
+    @Select("select * from sys_user")
+    List<User> selectList();
 }

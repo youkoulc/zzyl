@@ -4,6 +4,8 @@ import com.zzyl.base.PageResponse;
 import com.zzyl.dto.UserDto;
 import com.zzyl.vo.UserVo;
 
+import java.util.List;
+
 /**
  * @Description UserService
  * @Author HeFeng
@@ -32,4 +34,21 @@ public interface UserService {
      * @return
      */
     void updateUser(UserDto userDto);
+
+    /**
+     * 删除用户
+     * @param userIds
+     * @return
+     */
+    void delete(Long userIds);
+
+    /**
+     * 启用禁用
+     * @param id
+     * @param status
+     * @return
+     */
+    void updateStatus(Long id, String status);
+
+    List<UserVo> findUserList(UserDto userDto);
 }
