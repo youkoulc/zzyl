@@ -35,6 +35,27 @@
       </where>
       order by create_time desc
     </select>
+  <!--根据用户id查role-->
+    <select id="selectRoleByUserId" resultType="com.zzyl.vo.RoleVo">
+        select r.id,
+               r.role_name,
+               r.label,
+               r.sort_no,
+               r.data_state,
+               r.create_time,
+               r.update_time,
+               r.remark,
+               r.create_by,
+               r.update_by,
+               r.data_scope,
+               ur.user_id
+        from sys_role r
+                 left join sys_user_role ur on r.id = ur.role_id
+        where ur.user_id in
+        <foreach collection="userIdList" item="userId" separator="," open="(" close=")">
+          #{userId}
+        </foreach>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_role
     where id = #{id,jdbcType=BIGINT}

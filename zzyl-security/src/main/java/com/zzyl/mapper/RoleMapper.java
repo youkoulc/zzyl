@@ -3,6 +3,7 @@ package com.zzyl.mapper;
 import com.github.pagehelper.Page;
 import com.zzyl.dto.RoleDto;
 import com.zzyl.entity.Role;
+import com.zzyl.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -50,4 +51,14 @@ public interface RoleMapper {
      */
     @Select("select resource_no from sys_role_resource where role_id=#{roleId};")
     Set<String> selectResourceNoByRoleId(Long roleId);
+
+    /**
+     * 根据用户id查role
+     * @param userIdList
+     * @return
+     */
+    List<RoleVo> selectRoleByUserId(@Param("userIdList") List<Long> userIdList);
+
+    @Select("select * from sys_role where data_state = '0' order by create_time desc")
+    List<RoleVo> selectInitRoles();
 }

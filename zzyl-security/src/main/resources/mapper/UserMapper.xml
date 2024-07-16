@@ -37,7 +37,26 @@
     from sys_user
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <!--分页-->
+    <select id="getByPage" resultType="com.zzyl.entity.User">
+        select
+        su.id, su.username, su.open_id, su.password, su.user_type, su.avatar, su.nick_name, su.email, su.real_name,
+        su.mobile, su.sex, su.data_state, su.dept_no, su.post_no, su.create_time, su.update_time, su.remark,
+        su.create_by, su.update_by, su.is_leader, su.is_delete,sd.dept_name,sp.post_name
+
+        from sys_user su left join sys_user_role sur on user_id=su.id
+        left join sys_dept sd on su.dept_no=sd.dept_no
+        left join sys_post sp on su.post_no=sp.dept_no
+        <where>
+            <if test="deptNo !=null and deptNo !=''">and su.dept_no like concat(#{deptNo},'%')</if>
+            <if test="email !=null and email !=''">and email concat('%',#{email},'%')</if>
+            <if test="postNo !=null and postNo !=''">and su.post_no=#{postNo}</if>
+            <if test="realName !=null and realName !=''">and real_name like concat('%',#{realName},'%')</if>
+            <if test="roleId !=null">and su.id IN (SELECT ur.user_id FROM sys_user_role ur WHERE ur.role_id = #{roleId})</if>
+            <if test="dataState !=null and dataState !=''">and su.data_state=#{dataState}</if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_user
     where id = #{id,jdbcType=BIGINT}
   </delete>

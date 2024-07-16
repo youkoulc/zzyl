@@ -126,4 +126,15 @@ public class RoleServiceImpl implements RoleService {
         // 再删除角色数据
         return roleMapper.deleteByPrimaryKey(roleId);
     }
+
+    /**
+     * 角色下拉框
+     *
+     * @return
+     */
+    @Override
+    public List<RoleVo> getInitRoles() {
+        List<RoleVo> list=roleMapper.selectInitRoles();
+        return list;
+    }
 }

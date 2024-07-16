@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -86,5 +87,12 @@ public class RoleController {
     @DeleteMapping("/{roleId}")
     public ResponseResult remove(@PathVariable("roleId") Long roleId) {
         return ResponseResult.success(roleService.deleteRoleById(roleId));
+    }
+
+    @PostMapping("/init-roles")
+    @ApiOperation("角色下拉框")
+    public ResponseResult<List<RoleVo>> getInitRoles( ){
+        List<RoleVo> list=roleService.getInitRoles();
+        return ResponseResult.success(list);
     }
 }
