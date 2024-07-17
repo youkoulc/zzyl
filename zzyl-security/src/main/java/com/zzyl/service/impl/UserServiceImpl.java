@@ -16,6 +16,7 @@ import com.zzyl.mapper.UserMapper;
 import com.zzyl.mapper.UserRoleMapper;
 import com.zzyl.service.UserService;
 import com.zzyl.utils.ObjectUtil;
+import com.zzyl.utils.UserThreadLocal;
 import com.zzyl.vo.RoleVo;
 import com.zzyl.vo.UserVo;
 import io.swagger.annotations.ApiOperation;
@@ -25,9 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
                 Set<String> roleVoIds = new HashSet<>();
                 Set<String> roleLabels = new HashSet<>();
                 roleVoList.forEach(roleVo -> {
-                    if (userVo.getId().equals(roleVo.getUserId())){
+                    if (String.valueOf(userVo.getId()).equals(roleVo.getUserId())){
                         roleVoIds.add(String.valueOf(roleVo.getId()));
                         roleLabels.add(roleVo.getRoleName());
                     }
@@ -167,4 +166,36 @@ public class UserServiceImpl implements UserService {
         List<User> userList =  userMapper.selectList();
         return BeanUtil.copyToList(userList,UserVo.class);
     }
+
+    /**
+     * 当前用户
+     *
+     * @return
+     */
+    @Override
+    public UserVo currentUser() {
+        Long userId = UserThreadLocal.getUserId();
+        UserVo userVo = userMapper.selectCurrentUser(userId);
+
+        // 封装roleList
+        List<Long> userIdList= Collections.singletonList(userId);
+        List<RoleVo> roleVoList = roleMapper.selectRoleByUserId(userIdList);
+        userVo.setRoleList(roleVoList);
+        Set<String> roleVoIds = new HashSet<>();
+        Set<String> roleLabels = new HashSet<>();
+        roleVoList.forEach(roleVo -> {
+            if (String.valueOf(userVo.getId()).equals(roleVo.getUserId())){
+                roleVoIds.add(String.valueOf(roleVo.getId()));
+                roleLabels.add(roleVo.getRoleName());
+
+                userVo.setRoleId(roleVo.getId());
+            }
+        });
+        userVo.setRoleVoIds(roleVoIds);
+        userVo.setRoleLabels(roleLabels);
+        // TODO 封装roleId
+
+        return userVo;
+    }
+
 }

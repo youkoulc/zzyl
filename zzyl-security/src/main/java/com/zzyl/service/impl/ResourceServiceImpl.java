@@ -127,14 +127,17 @@ public class ResourceServiceImpl implements ResourceService {
      */
     @Override
     public void updateResource(ResourceDto resourceDto) {
+
         // 判断传入的父节点相对数据库是否有改变
         Resource resource = BeanUtil.toBean(resourceDto, Resource.class);
         Resource Originresource = resourceMapper.selectByPrimaryKey(resource.getId());
+
+        List<Resource> resourceSonList =new ArrayList<>();
         if (resource.getResourceType().equals(SuperConstant.MENU) &&
                 !resource.getParentResourceNo().equals(Originresource.getParentResourceNo())) {
             // 不相等，即已修改，根据当前资源编号查找子资源列表
             ResourceDto resourceDto1 = ResourceDto.builder().parentResourceNo(NoProcessing.processString(resource.getResourceNo())).build();
-            List<Resource> resourceSonList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto1, Resource.class));
+           resourceSonList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto1, Resource.class));
 
             // 如果子资源层级+父资源层级>=5，抛出异常
             Optional<Long> OMax = resourceSonList.stream().filter(resource1 -> resource1.getResourceType().equals(SuperConstant.MENU)).map(resource1 -> Long.valueOf(resource1.getResourceNo()))
@@ -146,40 +149,36 @@ public class ResourceServiceImpl implements ResourceService {
                 }
             }
 
-            // 从数据库删除该菜单
-            resourceMapper.deleteByPrimaryKey(resource.getId());
-
-            // 根据新的父节点，创建菜单
-            // 2.同步父资源状态
-            // 根据父资源编号查询资源对象
-            Resource parentResource = resourceMapper.selectByParentResourceNo(resource.getParentResourceNo());
-            // 同步状态
-            resource.setDataState(parentResource.getDataState());
-            // 3.生成子资源编号
-            String resourceNo = createResourceNo(resource);
-            resource.setResourceNo(resourceNo);
-            // 4.插入数据库
-            resourceMapper.insertSelective(resource);
-
-            // TODO 只提取了一级菜单
-            resourceSonList.forEach(resource1 -> {
-                // 如果为下一级
-                if (resource1.getParentResourceNo().equals(Originresource.getResourceNo())) {
-
-                    resource1.setParentResourceNo(resourceNo);
-
-                    String resource1No = createResourceNo(resource1);
-                    resource1.setResourceNo(resource1No);
-                    resourceMapper.updateByPrimaryKeySelective(resource1);
-                } else {
-
-                }
-
-            });
         }
-
-        // 相等，即没改变，直接修改
+        // 2.同步父资源状态
+        // 根据父资源编号查询资源对象
+        Resource parentResource = resourceMapper.selectByParentResourceNo(resource.getParentResourceNo());
+        // 同步状态
+        resource.setDataState(parentResource.getDataState());
+        // 相等，直接修改
+        String resourceNo = createResourceNo(resource);
+        resource.setResourceNo(resourceNo);
         resourceMapper.updateByPrimaryKeySelective(resource);
+
+
+
+        // TODO 子资源编号生成
+
+        // TODO 只提取了一级菜单
+        resourceSonList.forEach(resource1 -> {
+            // 如果为下一级
+            if (resource1.getParentResourceNo().equals(Originresource.getResourceNo())) {
+
+                resource1.setParentResourceNo(resourceNo);
+
+                String resource1No = createResourceNo(resource1);
+                resource1.setResourceNo(resource1No);
+                resourceMapper.updateByPrimaryKeySelective(resource1);
+            } else {
+
+            }
+
+        });
     }
 
 

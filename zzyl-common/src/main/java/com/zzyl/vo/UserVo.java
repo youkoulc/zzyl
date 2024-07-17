@@ -87,4 +87,6 @@ public class UserVo extends BaseVo {
      * 岗位名称
      */
     private String postName;
+
+    private List<RoleVo> roleList;
 }

@@ -3,6 +3,7 @@ package com.zzyl.mapper;
 import com.github.pagehelper.Page;
 import com.zzyl.dto.UserDto;
 import com.zzyl.entity.User;
+import com.zzyl.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -42,4 +43,11 @@ public interface UserMapper {
 
     @Select("select * from sys_user")
     List<User> selectList();
+
+    /**
+     * 当前用户
+     *
+     * @return
+     */
+    UserVo selectCurrentUser(Long userId);
 }

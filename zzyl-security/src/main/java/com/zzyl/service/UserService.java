@@ -51,4 +51,10 @@ public interface UserService {
     void updateStatus(Long id, String status);
 
     List<UserVo> findUserList(UserDto userDto);
+
+    /**
+     * 当前用户
+     * @return
+     */
+    UserVo currentUser();
 }

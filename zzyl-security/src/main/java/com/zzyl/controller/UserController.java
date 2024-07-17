@@ -101,4 +101,15 @@ public class UserController {
         List<UserVo> userVoList = userService.findUserList(userDto);
         return ResponseResult.success(userVoList);
     }
+
+    /**
+     * 当前用户
+     * @return
+     */
+    @GetMapping("/current-user")
+    @ApiOperation("当前用户")
+    public ResponseResult<UserVo> currentUser( ){
+        UserVo userVo=userService.currentUser( );
+        return ResponseResult.success(userVo);
+    }
 }
