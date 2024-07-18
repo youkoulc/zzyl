@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
+import com.zzyl.constant.CacheConstant;
 import com.zzyl.constant.SuperConstant;
 import com.zzyl.dto.ResourceDto;
 import com.zzyl.entity.Resource;
@@ -18,6 +19,9 @@ import com.zzyl.vo.ResourceVo;
 import com.zzyl.vo.TreeItemVo;
 import com.zzyl.vo.TreeVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +46,7 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceDto
      * @return
      */
+    @Cacheable(value = CacheConstant.RESOURCE_LIST,key = "#resourceDto.hashCode()",unless = "#result.size() == 0")
     @Override
     public List<ResourceVo> getResourceList(ResourceDto resourceDto) {
         List<Resource> resourceList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto, Resource.class));
@@ -55,6 +60,7 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceDto
      * @return
      */
+    @Cacheable(value = CacheConstant.RESOURCE_TREE,key = "#resourceDto.hashCode()",unless = "#result == null")
     @Override
     public TreeVo resourceTreeVo(ResourceDto resourceDto) {
         // 1.构建查询条件：去掉结尾0的父节点编号、数据状态为正常0、资源类型为 m
@@ -100,6 +106,10 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceDto
      * @return
      */
+    @Caching(evict = {
+            @CacheEvict(value = CacheConstant.RESOURCE_TREE,allEntries = true),
+            @CacheEvict(value = CacheConstant.RESOURCE_LIST,allEntries = true)
+    })
     @Override
     public void createResource(ResourceDto resourceDto) {
         // 1.将resourceDto转换为resource实体类对象
@@ -125,6 +135,10 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceDto
      * @return
      */
+    @Caching(evict = {
+            @CacheEvict(value = CacheConstant.RESOURCE_TREE,allEntries = true),
+            @CacheEvict(value = CacheConstant.RESOURCE_LIST,allEntries = true)
+    })
     @Override
     public void updateResource(ResourceDto resourceDto) {
 
@@ -222,6 +236,10 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resourceDto
      * @return
      */
+    @Caching(evict = {
+            @CacheEvict(value = CacheConstant.RESOURCE_TREE,allEntries = true),
+            @CacheEvict(value = CacheConstant.RESOURCE_LIST,allEntries = true)
+    })
     @Override
     public void updateDateState(ResourceDto resourceDto) {
         // 启用时，如果父资源禁用，子资源不允许启用
@@ -255,17 +273,21 @@ public class ResourceServiceImpl implements ResourceService {
      * @param menuId
      * @return
      */
+    @Caching(evict = {
+            @CacheEvict(value = CacheConstant.RESOURCE_TREE,allEntries = true),
+            @CacheEvict(value = CacheConstant.RESOURCE_LIST,allEntries = true)
+    })
     @Override
     public void delete(Long menuId) {
 
-        Resource resource = resourceMapper.selectByPrimaryKey(menuId);
+        Resource resource = resourceMapper.selectByResourceNo(menuId.toString());
         if (resource.getDataState().equals(SuperConstant.DATA_STATE_0)){
             throw new RuntimeException("菜单启用状态,不能删除");
         }
         // 根据当前资源编号查找子资源列表
         ResourceDto resourceDto1 = ResourceDto.builder().parentResourceNo(NoProcessing.processString(resource.getResourceNo())).build();
         List<Resource> resourceSonList = resourceMapper.selectResourceList(BeanUtil.toBean(resourceDto1, Resource.class));
-        if (ObjectUtil.isEmpty(resourceSonList)){
+        if (ObjectUtil.isNotEmpty(resourceSonList)){
             throw new RuntimeException("存在子菜单,不允许删除");
         }
 
@@ -275,6 +297,7 @@ public class ResourceServiceImpl implements ResourceService {
             throw new RuntimeException("菜单已分配,不允许删除");
         }
 
-        resourceMapper.deleteByPrimaryKey(menuId);
+
+        resourceMapper.deleteByPrimaryKey(resource.getId());
     }
 }

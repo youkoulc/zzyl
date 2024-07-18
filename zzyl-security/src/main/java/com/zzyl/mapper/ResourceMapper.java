@@ -46,4 +46,6 @@ public interface ResourceMapper {
     @Select("select * from sys_resource where resource_no=#{parentResourceNo}")
     Resource selectByParentResourceNo(String parentResourceNo);
 
+    @Select("select * from sys_resource where resource_no=#{resourceNo}")
+    Resource selectByResourceNo(String resourceNo);
 }
