@@ -15,6 +15,8 @@ import com.zzyl.mapper.RoleResourceMapper;
 import com.zzyl.service.ResourceService;
 import com.zzyl.utils.NoProcessing;
 import com.zzyl.utils.ObjectUtil;
+import com.zzyl.utils.UserThreadLocal;
+import com.zzyl.vo.MenuVo;
 import com.zzyl.vo.ResourceVo;
 import com.zzyl.vo.TreeItemVo;
 import com.zzyl.vo.TreeVo;
@@ -78,6 +80,8 @@ public class ResourceServiceImpl implements ResourceService {
         // 4.使用Hutool工具实现树形集合获取List<Tree<String>>
         TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
         treeNodeConfig.setNameKey("label");
+        // TreeUtil.build方法根据资源列表、根节点ID、TreeNodeConfig和节点转换器函数构建树形结构。
+        // 节点转换器函数用于将资源对象转换为树节点对象，设置节点的名称、ID和父ID。
         List<Tree<String>> treeList = TreeUtil.build(resourceList, SuperConstant.ROOT_PARENT_ID, treeNodeConfig, (resource, treeNode) -> {
             treeNode.setName(resource.getResourceName());
             treeNode.setId(resource.getResourceNo());
@@ -299,5 +303,27 @@ public class ResourceServiceImpl implements ResourceService {
 
 
         resourceMapper.deleteByPrimaryKey(resource.getId());
+    }
+
+    /**
+     * 动态菜单
+     *
+     * @return
+     */
+    @Override
+    public List<MenuVo> menus() {
+        Long userId = UserThreadLocal.getMgtUserId();
+        List<MenuVo> menuVoList = resourceMapper.findListByUserId(userId);
+
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        List<Tree<String>> treeList = TreeUtil.build(menuVoList, SuperConstant.ROOT_PARENT_ID, treeNodeConfig, (menuVo, treeNode) -> {
+            treeNode.setId(menuVo.getResourceNo());
+            treeNode.setParentId(menuVo.getParentResourceNo());
+            treeNode.putExtra("path", menuVo.getPath());
+            treeNode.putExtra("redirect", menuVo.getName());
+            treeNode.putExtra("meta", menuVo.getMeta());
+        });
+        List<MenuVo> menuVos = BeanUtil.copyToList(treeList, MenuVo.class);
+        return menuVos;
     }
 }

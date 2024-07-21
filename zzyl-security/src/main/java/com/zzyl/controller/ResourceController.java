@@ -4,6 +4,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.zzyl.base.ResponseResult;
 import com.zzyl.dto.ResourceDto;
 import com.zzyl.service.ResourceService;
+import com.zzyl.vo.MenuVo;
 import com.zzyl.vo.ResourceVo;
 import com.zzyl.vo.TreeVo;
 import io.swagger.annotations.Api;
@@ -38,7 +39,7 @@ public class ResourceController {
     @PostMapping("/list")
     @ApiOperation("资源列表")
     @ApiOperationSupport(includeParameters = {"resourceDto.parentResourceNo", "resourceDto.resourceType"})
-    public ResponseResult getResourceList(@ApiParam(name = "resourceDto",value = "资源Dto对象", required = true) @RequestBody ResourceDto resourceDto) {
+    public ResponseResult getResourceList(@ApiParam(name = "resourceDto", value = "资源Dto对象", required = true) @RequestBody ResourceDto resourceDto) {
         List<ResourceVo> resourceVoList = resourceService.getResourceList(resourceDto);
         return ResponseResult.success(resourceVoList);
     }
@@ -46,12 +47,13 @@ public class ResourceController {
 
     /**
      * 资源树形
+     *
      * @param resourceDto
      * @return
      */
     @PostMapping("/tree")
     @ApiOperation("资源树形")
-    @ApiImplicitParam(name = "resourceDto",value = "资源Dto对象", required = true,dataType = "ResourceDto")
+    @ApiImplicitParam(name = "resourceDto", value = "资源Dto对象", required = true, dataType = "ResourceDto")
     @ApiOperationSupport(includeParameters = {"resourceDto.label"})
     public ResponseResult<TreeVo> resourceTreeVo(@RequestBody ResourceDto resourceDto) {
         TreeVo treeVo = resourceService.resourceTreeVo(resourceDto);
@@ -60,6 +62,7 @@ public class ResourceController {
 
     /**
      * 添加资源：新增菜单和新增按钮
+     *
      * @param resourceDto
      * @return
      */
@@ -80,38 +83,52 @@ public class ResourceController {
 
     /**
      * 资源修改
+     *
      * @param resourceDto
      * @return
      */
     @PatchMapping
     @ApiOperation("资源修改")
-    public ResponseResult updateResource(@RequestBody ResourceDto resourceDto){
+    public ResponseResult updateResource(@RequestBody ResourceDto resourceDto) {
         resourceService.updateResource(resourceDto);
         return ResponseResult.success();
     }
 
     /**
      * 资源启用禁用
+     *
      * @param resourceDto
      * @return
      */
     @PostMapping("/enable")
     @ApiOperation("资源启用禁用")
-    public ResponseResult updateDateState(@RequestBody ResourceDto resourceDto ){
+    public ResponseResult updateDateState(@RequestBody ResourceDto resourceDto) {
         resourceService.updateDateState(resourceDto);
         return ResponseResult.success();
     }
 
     /**
      * 删除菜单
+     *
      * @param menuId
      * @return
      */
     @DeleteMapping("/{menuId}")
     @ApiOperation("删除菜单")
-    public ResponseResult delete(@PathVariable Long menuId ){
+    public ResponseResult delete(@PathVariable Long menuId) {
         resourceService.delete(menuId);
         return ResponseResult.success();
+    }
+
+    /**
+     * 动态菜单
+     * @return
+     */
+    @GetMapping("/menus")
+    @ApiOperation(value = "左侧菜单", notes = "左侧菜单")
+    public ResponseResult<List<MenuVo>> menus() {
+        List<MenuVo> menuVoList=resourceService.menus();
+        return ResponseResult.success(menuVoList);
     }
 
 }

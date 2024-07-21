@@ -2,6 +2,7 @@ package com.zzyl.mapper;
 
 import com.zzyl.dto.ResourceDto;
 import com.zzyl.entity.Resource;
+import com.zzyl.vo.MenuVo;
 import com.zzyl.vo.ResourceVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -51,4 +52,7 @@ public interface ResourceMapper {
 
     // 根据用户id查询资源路径数据
     List<String>  findResourcePathListByUserId(String userId);
+
+    // 当前登录人的ID查询资源数据
+    List<MenuVo> findListByUserId(Long userId);
 }

@@ -29,11 +29,11 @@ public class LoginController2 {
     //
     // }
 
-    @GetMapping("/resource/menus")
+/*    @GetMapping("/resource/menus")
     public String menus(){
         return menu;
 
-    }
+    }*/
 
     static String menu = "{\n" +
             "    \"code\": 200,\n" +

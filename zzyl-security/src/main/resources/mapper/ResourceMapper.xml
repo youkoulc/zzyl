@@ -57,6 +57,27 @@
           and sr.resource_type = 'r'
     </select>
 
+    <resultMap id="BaseResultVoMap" type="com.zzyl.vo.MenuVo">
+        <result column="resource_name" property="name"/>
+        <result column="request_path" property="path"/>
+        <result column="parent_resource_no" property="parentResourceNo"/>
+        <result column="resource_no" property="resourceNo"/>
+        <association property="meta" javaType="com.zzyl.vo.MenuMetaVo">
+            <result column="resource_name" property="title"/>
+            <result column="icon" property="icon"/>
+        </association>
+    </resultMap>
+    <!--当前登录人的ID查询资源数据-->
+    <select id="findListByUserId" resultMap="BaseResultVoMap">
+        select sr.resource_no,request_path,parent_resource_no,resource_name,icon from sys_resource sr
+        join sys_role_resource srr on srr.resource_no = sr.resource_no
+        join sys_user_role sur on sur.role_id=srr.role_id
+        where sur.user_id = #{userId}
+        and sr.data_state ='0'
+        and sr.resource_type='m'
+
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from sys_resource
@@ -77,6 +98,7 @@
         #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
         #{createBy,jdbcType=BIGINT}, #{updateBy,jdbcType=BIGINT})
     </insert>
+
     <insert id="insertSelective" parameterType="com.zzyl.entity.Resource">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()

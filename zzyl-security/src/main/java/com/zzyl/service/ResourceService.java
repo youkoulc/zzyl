@@ -1,6 +1,7 @@
 package com.zzyl.service;
 
 import com.zzyl.dto.ResourceDto;
+import com.zzyl.vo.MenuVo;
 import com.zzyl.vo.ResourceVo;
 import com.zzyl.vo.TreeVo;
 
@@ -53,4 +54,10 @@ public interface ResourceService {
      * @return
      */
     void delete(Long menuId);
+
+    /**
+     * 动态菜单
+     * @return
+     */
+    List<MenuVo> menus();
 }
