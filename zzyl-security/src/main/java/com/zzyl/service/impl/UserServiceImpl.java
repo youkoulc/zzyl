@@ -176,7 +176,9 @@ public class UserServiceImpl implements UserService {
     public UserVo currentUser() {
         Long userId = UserThreadLocal.getUserId();
         UserVo userVo = userMapper.selectCurrentUser(userId);
-
+        if (ObjectUtil.isEmpty(userVo)){
+            throw new RuntimeException("获取用户信息失败");
+        }
         // 封装roleList
         List<Long> userIdList= Collections.singletonList(userId);
         List<RoleVo> roleVoList = roleMapper.selectRoleByUserId(userIdList);

@@ -50,4 +50,7 @@ public interface UserMapper {
      * @return
      */
     UserVo selectCurrentUser(Long userId);
+
+    @Select(" select * from sys_user where username = #{username}")
+    User selectUserForLogin(String username);
 }

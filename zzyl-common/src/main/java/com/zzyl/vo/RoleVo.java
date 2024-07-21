@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
  * 角色表
  */
 
+
 @Data
 @NoArgsConstructor
 @ApiModel("角色VO")

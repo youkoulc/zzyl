@@ -1,19 +1,9 @@
 package com.zzyl.controller;
 
-import com.zzyl.base.ResponseResult;
-import com.zzyl.dto.LoginDto;
-import com.zzyl.service.LoginService;
-import com.zzyl.utils.JwtUtil;
-import com.zzyl.vo.UserVo;
+import com.zzyl.service.LoginService2;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author sjqn
@@ -21,23 +11,23 @@ import java.util.Map;
  */
 @RestController
 @Api(tags ="登录")
-public class LoginController {
-    @Autowired
-    private LoginService loginService;
+public class LoginController2 {
+    // @Autowired
+    // private LoginService2 loginService2;
 
-    @PostMapping("/security/login")
-    @ApiOperation("登录")
-    public ResponseResult login(@RequestBody LoginDto loginDto){
-
-        UserVo userVo=loginService.login(loginDto);
-
-        if (userVo != null) {
-            return ResponseResult.success(userVo);
-        }else {
-            return ResponseResult.error("用户名或密码错误，请重试");
-        }
-
-    }
+    // @PostMapping("/security/login")
+    // @ApiOperation("登录")
+    // public ResponseResult login(@RequestBody LoginDto loginDto){
+    //
+    //     UserVo userVo=loginService.login(loginDto);
+    //
+    //     if (userVo != null) {
+    //         return ResponseResult.success(userVo);
+    //     }else {
+    //         return ResponseResult.error("用户名或密码错误，请重试");
+    //     }
+    //
+    // }
 
     @GetMapping("/resource/menus")
     public String menus(){
