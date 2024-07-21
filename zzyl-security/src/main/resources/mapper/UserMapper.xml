@@ -61,7 +61,7 @@
     select
       su.id, su.username, su.open_id, su.password, su.user_type, su.avatar, su.nick_name, su.email, su.real_name,
       su.mobile, su.sex, su.data_state, su.dept_no, su.post_no, su.create_time, su.update_time, su.remark,
-      su.create_by, su.update_by, su.is_leader, su.is_delete,sd.dept_name,sp.post_name
+      su.create_by, su.update_by, su.is_leader, su.is_delete,sd.dept_name,sp.post_name,sur.role_id
 
     from sys_user su left join sys_user_role sur on user_id=su.id
                      left join sys_dept sd on su.dept_no=sd.dept_no

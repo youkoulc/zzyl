@@ -87,9 +87,12 @@ public class RoleServiceImpl implements RoleService {
 
         // TODO 角色有关联的用户，不允许禁用
         // 根据角色id查找有无关联用户
-        Long userId = userRoleMapper.selectByRoleId(role.getId());
-        if (Integer.parseInt(role.getDataState())==1&&ObjectUtil.isNotEmpty(userId)) {
-            throw new BaseException(BasicEnum.ROLE_BINDING_USER);
+        List<Long> userId = userRoleMapper.selectByRoleId(role.getId());
+        if (ObjectUtil.isNotEmpty(role.getDataState())){
+
+            if (role.getDataState().equals(SuperConstant.DATA_STATE_1)&&ObjectUtil.isNotEmpty(userId)) {
+                throw new BaseException(BasicEnum.ROLE_BINDING_USER);
+            }
         }
 
         // 3.角色信息直接调用mapper修改

@@ -1,6 +1,7 @@
 package com.zzyl.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zzyl.base.BaseVo;
@@ -174,13 +175,16 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserVo currentUser() {
-        Long userId = UserThreadLocal.getUserId();
-        UserVo userVo = userMapper.selectCurrentUser(userId);
+        String cunrrentuserjson = UserThreadLocal.getSubject();
+
+        UserVo userVo0 = JSONUtil.toBean(cunrrentuserjson, UserVo.class);
+
+        UserVo userVo = userMapper.selectCurrentUser(userVo0.getId());
         if (ObjectUtil.isEmpty(userVo)){
             throw new RuntimeException("获取用户信息失败");
         }
         // 封装roleList
-        List<Long> userIdList= Collections.singletonList(userId);
+        List<Long> userIdList= Collections.singletonList(userVo.getId());
         List<RoleVo> roleVoList = roleMapper.selectRoleByUserId(userIdList);
         userVo.setRoleList(roleVoList);
         Set<String> roleVoIds = new HashSet<>();

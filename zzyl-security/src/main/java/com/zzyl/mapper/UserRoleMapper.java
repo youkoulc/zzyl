@@ -32,8 +32,8 @@ public interface UserRoleMapper {
      */
     int batchInsert(@Param("list") List<UserRole> list);
     // 根据角色id查找有无关联用户
-    @Select("select user_id from zzyl.sys_user_role where role_id=#{roleId}")
-    Long selectByRoleId(Long roleId);
+    @Select("select distinct user_id from zzyl.sys_user_role where role_id=#{roleId}")
+    List<Long> selectByRoleId(Long roleId);
 
     @Delete("delete from zzyl.sys_user_role where user_id = #{userId}")
     void deleteByUserId(Long userId);

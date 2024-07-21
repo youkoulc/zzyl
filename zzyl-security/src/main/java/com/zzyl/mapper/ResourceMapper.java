@@ -48,4 +48,7 @@ public interface ResourceMapper {
 
     @Select("select * from sys_resource where resource_no=#{resourceNo}")
     Resource selectByResourceNo(String resourceNo);
+
+    // 根据用户id查询资源路径数据
+    List<String>  findResourcePathListByUserId(String userId);
 }
