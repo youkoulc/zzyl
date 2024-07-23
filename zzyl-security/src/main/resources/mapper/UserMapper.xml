@@ -46,7 +46,7 @@
 
       from sys_user su left join sys_user_role sur on user_id=su.id
       left join sys_dept sd on su.dept_no=sd.dept_no
-      left join sys_post sp on su.post_no=sp.dept_no
+      left join sys_post sp on su.post_no=sp.post_no
       <where>
         <if test="deptNo !=null and deptNo !=''">and su.dept_no like concat(#{deptNo},'%')</if>
         <if test="email !=null and email !=''">and email like concat('%',#{email},'%')</if>
@@ -65,7 +65,7 @@
 
     from sys_user su left join sys_user_role sur on user_id=su.id
                      left join sys_dept sd on su.dept_no=sd.dept_no
-                     left join sys_post sp on su.post_no=sp.dept_no
+                     left join sys_post sp on su.post_no=sp.post_no
     where su.id=#{userId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

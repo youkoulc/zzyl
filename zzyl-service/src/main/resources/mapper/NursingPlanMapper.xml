@@ -55,7 +55,7 @@
     <select id="getProjectPlan" resultType="com.zzyl.vo.NursingProjectPlanVo">
         select npp.*, npj.name projectName
         from nursing_project_plan npp
-                 left join nursing_project npj on npp.project_id = npj.id
+                  join nursing_project npj on npp.project_id = npj.id
         where plan_id = #{id}
     </select>
     <select id="selectById" resultType="com.zzyl.entity.NursingPlan">

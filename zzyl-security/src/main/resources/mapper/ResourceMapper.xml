@@ -62,19 +62,24 @@
         <result column="request_path" property="path"/>
         <result column="parent_resource_no" property="parentResourceNo"/>
         <result column="resource_no" property="resourceNo"/>
+        <!-- 关联另一对象
         <association property="meta" javaType="com.zzyl.vo.MenuMetaVo">
-            <result column="resource_name" property="title"/>
-            <result column="icon" property="icon"/>
-        </association>
+                    <result column="resource_name" property="title"/>
+                    <result column="icon" property="icon"/>
+                </association>-->
+        <!--方法二-->
+        <result column="resource_name" property="meta.title"/>
+        <result column="icon" property="meta.icon"/>
     </resultMap>
     <!--当前登录人的ID查询资源数据-->
     <select id="findListByUserId" resultMap="BaseResultVoMap">
-        select sr.resource_no,request_path,parent_resource_no,resource_name,icon from sys_resource sr
-        join sys_role_resource srr on srr.resource_no = sr.resource_no
-        join sys_user_role sur on sur.role_id=srr.role_id
+        select sr.resource_no, request_path, parent_resource_no, resource_name, icon
+        from sys_resource sr
+                 join sys_role_resource srr on srr.resource_no = sr.resource_no
+                 join sys_user_role sur on sur.role_id = srr.role_id
         where sur.user_id = #{userId}
-        and sr.data_state ='0'
-        and sr.resource_type='m'
+          and sr.data_state = '0'
+          and sr.resource_type = 'm'
 
     </select>
 

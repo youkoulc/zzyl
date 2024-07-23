@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
         user.setUsername(user.getEmail());
         user.setNickName(user.getRealName());
         user.setDataState(SuperConstant.DATA_STATE_0);
-        //TODO 需要设置默认
-        user.setPassword("123456");
+        // 需要设置默认，no 会变明文
+        // user.setPassword("123456");
         userMapper.insertSelective(user);
 
         // 添加用户角色关联
@@ -175,9 +175,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserVo currentUser() {
-        String cunrrentuserjson = UserThreadLocal.getSubject();
+        String currentUserjson = UserThreadLocal.getSubject();
 
-        UserVo userVo0 = JSONUtil.toBean(cunrrentuserjson, UserVo.class);
+        UserVo userVo0 = JSONUtil.toBean(currentUserjson, UserVo.class);
 
         UserVo userVo = userMapper.selectCurrentUser(userVo0.getId());
         if (ObjectUtil.isEmpty(userVo)){
@@ -189,6 +189,7 @@ public class UserServiceImpl implements UserService {
         userVo.setRoleList(roleVoList);
         Set<String> roleVoIds = new HashSet<>();
         Set<String> roleLabels = new HashSet<>();
+        // Set<String> roleNames = new HashSet<>();
         roleVoList.forEach(roleVo -> {
             if (String.valueOf(userVo.getId()).equals(roleVo.getUserId())){
                 roleVoIds.add(String.valueOf(roleVo.getId()));
@@ -199,6 +200,7 @@ public class UserServiceImpl implements UserService {
         });
         userVo.setRoleVoIds(roleVoIds);
         userVo.setRoleLabels(roleLabels);
+        userVo.setRoleNames(roleLabels);
         // TODO 封装roleId
 
         return userVo;

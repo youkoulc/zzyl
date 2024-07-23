@@ -89,4 +89,5 @@ public class UserVo extends BaseVo {
     private String postName;
 
     private List<RoleVo> roleList;
+    private Set<String> roleNames;
 }

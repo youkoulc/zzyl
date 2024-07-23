@@ -324,6 +324,7 @@ public class ResourceServiceImpl implements ResourceService {
             treeNode.putExtra("meta", menuVo.getMeta());
         });
         List<MenuVo> menuVos = BeanUtil.copyToList(treeList, MenuVo.class);
+
         return menuVos;
     }
 }
