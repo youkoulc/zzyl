@@ -22,6 +22,7 @@ import com.zzyl.vo.RoleVo;
 import com.zzyl.vo.UserVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -92,8 +93,9 @@ public class UserServiceImpl implements UserService {
         user.setUsername(user.getEmail());
         user.setNickName(user.getRealName());
         user.setDataState(SuperConstant.DATA_STATE_0);
-        // 需要设置默认，no 会变明文
-        // user.setPassword("123456");
+        // 密码需要设置默认，直接设置会变明文 ，需要加密后在保存
+        String hashpw = BCrypt.hashpw("888itcast.CN764%...", BCrypt.gensalt());
+        user.setPassword(hashpw);
         userMapper.insertSelective(user);
 
         // 添加用户角色关联
@@ -128,7 +130,7 @@ public class UserServiceImpl implements UserService {
     private void batchInsertUseRole(UserDto userDto, User user) {
         List<UserRole> userRoleList = userDto.getRoleVoIds().stream().map(roleId -> {
             UserRole userRole = UserRole.builder()
-                    .dataState(userDto.getDataState())
+                    .dataState(user.getDataState())
                     .roleId(Long.valueOf(roleId))
                     .userId(user.getId()).build();
             return userRole;
