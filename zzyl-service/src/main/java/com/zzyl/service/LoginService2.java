@@ -8,6 +8,6 @@ import com.zzyl.vo.UserVo;
  * @Author HeFeng
  * @Date 2024-07-09
  */
-public interface LoginService {
+public interface LoginService2 {
     UserVo login(LoginDto loginDto);
 }

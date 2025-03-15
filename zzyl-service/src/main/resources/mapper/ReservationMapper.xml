@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzyl.mapper.ReservationMapper">
+    <!--新增预约-->
+    <insert id="insert">
+        insert into reservation (name, mobile, time, visitor, type, status, create_time, update_time, create_by,
+                                 update_by, remark)
+        values (#{name},#{mobile},#{time},#{visitor},#{type},#{status},#{createTime},#{updateTime},#{createBy},#{updateBy},#{remark})
+    </insert>
+    <update id="cancel">
+        update reservation set status=2,update_time=now(),update_by=#{userId} where create_by=#{userId} and id=#{id}
+    </update>
+    <update id="autoUpdate">
+        update reservation
+        set status = 3,update_time=now()
+        where status = 0
+          and now() > date_add(time,INTERVAL 1 HOUR )
+    </update>
+    <!--更新预约信息-->
+    <update id="update">
+        update reservation
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="mobile != null and mobile !=''">mobile= #{mobile},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="visitor != null and visitor != ''">visitor = #{visitor},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id =#{id}
+    </update>
+    <!--查询取消预约数量-->
+    <select id="selectCancelledCount" resultType="java.lang.Integer">
+        select count(*)
+        from reservation
+        where create_by = #{userId}
+          and status = 2
+          and create_time between #{zero} and #{now}
+    </select>
+
+    <!--查询指定时间当天每个时间段剩余预约次数-->
+    <select id="selectCountByTime" resultType="com.zzyl.vo.TimeCountVo">
+        select time,(6-count(*)) count from reservation
+        where status!=2 and time between #{beganTime} and #{endTime} group by time
+    </select>
+    <!--分页查询-->
+    <select id="selectByPage" resultType="com.zzyl.vo.ReservationVo">
+        select r.*,member.name creator
+        from reservation r left join member on r.create_by=member.id
+        <where>
+            <if test="status !=null">status=#{status}
+            </if>
+            <if test="userId != null">
+                and r.create_by = #{userId}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+</mapper>

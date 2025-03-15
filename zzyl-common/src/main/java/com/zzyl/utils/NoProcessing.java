@@ -12,6 +12,7 @@ public class NoProcessing {
      * 第三层：100001001000000
      * 第四层：100001001001000
      * 第五层：100001001001001
+     * 我们在需要查询当前1级节点以下所有节点时，就不用再递归查询，使用like "resource_no%"即可。
      * @param input 如果为001000000000000处理完成后则变为001
      * @return
  * @return: java.lang.String
@@ -38,7 +39,11 @@ public class NoProcessing {
 
     /***
      *  生产层级编号
-     * @param input 输入编号
+     *  据父节点编号生成子节点编号
+     *      *   例如：
+     *           peerNode=false情况1增加子节点：这个父节点没有子节点，传入父节点100001000000000，新增加一级节点编号：100001001000000
+     *           peerNode=true情况2增加平级节点：这个父节点有子节点，传入平级最大的子节点编号100001002000000 新增加一级节点编号：100001003000000
+     * @param input 输入编号,没有子节点传入父节点编号，有子节点传入最大子节点编号
      * @param peerNode 是否下属节点
      * @return
      * @return: java.lang.String

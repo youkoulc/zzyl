@@ -41,7 +41,7 @@ public interface NursingLevelService {
      * @param id
      * @return
      */
-    NursingLevelVo getById(Integer id);
+    NursingLevelVo getById(Long id);
 
     /**
      * 修改护理等级
@@ -55,7 +55,7 @@ public interface NursingLevelService {
      * @param id
      * @return
      */
-    void delete(Integer id);
+    void delete(Long id);
 
     /**
      * 切换状态
@@ -63,5 +63,5 @@ public interface NursingLevelService {
      * @param status
      * @return
      */
-    void switchStatus(Integer id, Integer status);
+    void switchStatus(Long id, Integer status);
 }

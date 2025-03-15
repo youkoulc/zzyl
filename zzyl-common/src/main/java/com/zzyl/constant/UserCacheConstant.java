@@ -45,4 +45,7 @@ public class UserCacheConstant {
      */
     public static final String JWT_TOKEN = PREFIX+"jwt-token:";
 
+    // 可访问的url列表
+    public static final String ACCESS_URLS_CACHE = PREFIX+"access-urls:";
+
 }

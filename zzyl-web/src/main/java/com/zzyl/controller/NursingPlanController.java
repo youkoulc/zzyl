@@ -83,7 +83,7 @@ public class NursingPlanController extends BaseController {
     @DeleteMapping("/{id}")
     @ApiOperation("删除护理计划")
     @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
-    public ResponseResult deleteNursingPlan(@PathVariable("id") Integer id) {
+    public ResponseResult deleteNursingPlan(@PathVariable("id") Long id) {
         nursingPlanService.deleteNursingPlan(id);
         return success();
     }
@@ -97,7 +97,7 @@ public class NursingPlanController extends BaseController {
     @GetMapping("/{id}")
     @ApiOperation("根据id获取护理计划")
     @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true)})
-    public ResponseResult<NursingPlanVo> getById(@PathVariable("id") Integer id) {
+    public ResponseResult<NursingPlanVo> getById(@PathVariable("id") Long id) {
         NursingPlanVo nursingPlanVos = nursingPlanService.getById(id);
         return success(nursingPlanVos);
     }
@@ -127,7 +127,7 @@ public class NursingPlanController extends BaseController {
     @ApiOperation("更新护理计划状态")
     @ApiImplicitParams({@ApiImplicitParam(value = "护理计划id", name = "id", required = true),
             @ApiImplicitParam(value = "状态", name = "status", required = true)})
-    public ResponseResult statusChange(@PathVariable("id") Integer id, @PathVariable("status") Integer status) {
+    public ResponseResult statusChange(@PathVariable("id") Long id, @PathVariable("status") Integer status) {
         nursingPlanService.updateStatus(id, status);
         return success();
     }
