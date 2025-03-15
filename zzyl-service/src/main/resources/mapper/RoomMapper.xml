@@ -79,7 +79,7 @@
         FROM room
         order by sort
     </select>
-
+<!-- 以下是新增的接口，用于查询房间及其对应的床位及护理人员信息 -->
     <insert id="insert" parameterType="com.zzyl.entity.Room">
         INSERT INTO room (code, sort, type_name, floor_id, create_by, update_by, remark, create_time, update_time)
         VALUES (#{code}, #{sort}, #{typeName}, #{floorId}, #{createBy}, #{updateBy}, #{remark}, #{createTime},

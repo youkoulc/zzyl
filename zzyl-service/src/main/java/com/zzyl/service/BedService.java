@@ -12,6 +12,13 @@ public interface BedService {
 
 
     /**
+     * 根据id查询床位
+     * @param id
+     * @return
+     */
+    BedVo getBedById(Integer id);
+
+    /**
      * 通过房间ID检索床位
      * @param roomId 房间ID
      * @return 床位视图对象列表
@@ -24,4 +31,18 @@ public interface BedService {
      * @return
      */
     int creatBed(BedDto bedDto);
+
+    /**
+     * 更新床位
+     * @param bedDto
+     * @return
+     */
+    void updateBed(BedDto bedDto);
+
+    /**
+     * 删除床位
+     * @param id
+     * @return
+     */
+    void deleteBed(Integer id);
 }

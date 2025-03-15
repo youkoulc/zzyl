@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzyl.mapper.NursingProjectMapper">
+    <insert id="insert">
+        insert into nursing_project (name, order_no, unit, price, image, nursing_requirement, status, create_by,
+                                     update_by, remark, create_time, update_time)
+        VALUES (#{name}, #{orderNo}, #{unit}, #{price}, #{image}, #{nursingRequirement}, #{status}, #{createBy},
+                #{updateBy}, #{remark}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update nursing_project
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="unit != null and unit != ''">unit = #{unit},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="image != null and image != ''">image = #{image},</if>
+            <if test="nursingRequirement != null and nursingRequirement != ''">nursing_requirement = #{nursingRequirement},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from nursing_project where id =#{id}
+    </delete>
+
+    <select id="selectByPage" resultType="com.zzyl.vo.NursingProjectVo">
+        select np.*,su.real_name creator,(select count(*) from nursing_project_plan npp where npp.project_id=np.id) count
+        from nursing_project np left join sys_user su on su.id=np.create_by
+        <where>
+            <if test="name!=null and name!=''">name like concat('%',#{name},'%')</if>
+            <if test="status!=null">and status=#{status}</if>
+        </where>
+        order by order_no ,create_time desc
+    </select>
+
+    <select id="selectById" resultType="com.zzyl.entity.NursingProject">
+        select *
+        from nursing_project
+        where id = #{id};
+    </select>
+    <select id="selectAll" resultType="com.zzyl.entity.NursingProject">
+        select * from nursing_project;
+    </select>
+</mapper>

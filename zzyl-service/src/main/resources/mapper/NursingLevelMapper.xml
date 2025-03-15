@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzyl.mapper.NursingLevelMapper">
+    <!--新增护理等级-->
+    <insert id="insert">
+        insert into nursing_level (name, lplan_id, fee, description, create_by, update_by, remark,status,create_time,update_time)
+        VALUES (#{name},#{planId},#{fee},#{description},#{createBy},#{updateBy},#{remark},#{status}, #{createTime}, #{updateTime})
+    </insert>
+    <!--修改护理等级-->
+    <update id="update">
+        update nursing_level
+        <set>
+            <if test="name != null and name !=''">name=#{name},</if>
+            <if test="planId != null">lplan_id=#{planId},</if>
+            <if test="fee != null">fee=#{fee},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="description != null and description !=''">description=#{description},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+    where id =#{id}
+    </update>
+    <delete id="deleteById">
+        delete
+        from nursing_level
+        where id = #{id}
+    </delete>
+    <!--查询所有-->
+    <select id="selectAll" resultType="com.zzyl.vo.NursingLevelVo">
+        select *
+        from nursing_level;
+    </select>
+    <!--条件分页查询-->
+    <select id="selectByPage" resultType="com.zzyl.vo.NursingLevelVo">
+        select nl.*,su.real_name creator,np.plan_name planName
+        from nursing_level nl left join sys_user su on nl.create_by=su.id left join nursing_plan np on np.id = nl.lplan_id
+        <where>
+            <if test="name!=null and name!=''">name like concat('%',#{name},'%')</if>
+            <if test="status!=null">and nl.status=#{status}</if>
+        </where>
+        order by create_time desc
+    </select>
+    <!--根据id查询-->
+    <select id="selectById" resultType="com.zzyl.vo.NursingLevelVo">
+        select nl.*,np.plan_name planName,np.id planId
+        from nursing_level nl left join nursing_plan np on lplan_id=np.id where nl.id =#{id}
+    </select>
+</mapper>

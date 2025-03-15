@@ -31,6 +31,28 @@
         <result column="eid" property="elderId"/>
         <result column="price" property="price"/>
     </resultMap>
+    <insert id="addBed">
+        insert into bed (bed_number, bed_status, sort, room_id, create_time, create_by) values (#{bedNumber},#{bedStatus},#{sort},#{roomId},#{createTime},#{createBy})
+    </insert>
+
+    <update id="updateBed">
+        update bed
+        <set>
+            <if test="bedNumber!=null and bedNumber!=''">bed_number=#{bedNumber},</if>
+            <if test="bedStatus!=null">bed_status=#{bedStatus},</if>
+            <if test="sort!=null">sort=#{sort},</if>
+            <if test="roomId!=null">room_id=#{roomId},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+            <if test="createBy!=null">create_by=#{createBy},</if>
+            <if test="updateBy!=null">update_by=#{updateBy},</if>
+            <if test="remark!=null and remark!=''">remark=#{remark}</if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteBed">
+        delete from bed where id =#{id}
+    </delete>
 
     <select id="getBedsByRoomId" resultMap="BedVoResultMap" parameterType="java.lang.Long">
         select b.*,
@@ -40,5 +62,8 @@
                  left join elder e on b.id = e.bed_id
         where b.room_id = #{roomId}
         order by b.sort, b.create_time desc
+    </select>
+    <select id="getBedById" resultType="com.zzyl.entity.Bed">
+        select id, bed_number, bed_status, sort, room_id from bed where id=#{id}
     </select>
 </mapper>
