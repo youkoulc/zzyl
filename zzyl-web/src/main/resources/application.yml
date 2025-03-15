@@ -65,11 +65,3 @@ zzyl:
     jwt:
       base64-encoded-secret-key: $2a$10$PVtHnkj86mJgf6li/yron.LRx/cQAlaiZkBJ9BeogCNTryXJRT1YC
       ttl: 3600000
-    oss:
-      endpoint: oss-cn-guangzhou.aliyuncs.com
-      accessKeyId: LTAI5tC1vkmbWw7sYbDAmt2c
-      accessKeySecret: 762i2xWVlDEF1dJTS0Ne1ejIqVNuym
-      bucketName: web-hmtest001
-  wechat:
-    appId: wx5ec14963469fed5e
-    appSecret: 2bf370b36c52fcb95ff5c4b348b429d9
