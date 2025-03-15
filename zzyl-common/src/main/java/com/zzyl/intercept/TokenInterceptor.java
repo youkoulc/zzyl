@@ -38,4 +38,12 @@ public class TokenInterceptor implements HandlerInterceptor {
         return true;
 
     }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        // 响应结束，清空，防止数据泄露
+        if (UserThreadLocal.get()!=null){
+            UserThreadLocal.remove();
+        }
+    }
 }

@@ -43,7 +43,7 @@ public interface NursingLevelMapper {
      * @param id
      * @return
      */
-    NursingLevelVo selectById(Integer id);
+    NursingLevelVo selectById(Long id);
 
     /**
      * 修改护理等级
@@ -57,5 +57,5 @@ public interface NursingLevelMapper {
      * @param id
      * @return
      */
-    void deleteById(Integer id);
+    void deleteById(Long id);
 }

@@ -2,7 +2,7 @@ package com.zzyl.service.impl;
 
 import com.zzyl.dto.LoginDto;
 import com.zzyl.mapper.LoginMapper;
-import com.zzyl.service.LoginService;
+import com.zzyl.service.LoginService2;
 import com.zzyl.utils.JwtUtil;
 import com.zzyl.utils.UserThreadLocal;
 import com.zzyl.vo.UserVo;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @Date 2024-07-09
  */
 @Service
-public class LoginServiceImpl implements LoginService {
+public class LoginService2Impl implements LoginService2 {
     @Autowired
     private LoginMapper loginMapper;
 

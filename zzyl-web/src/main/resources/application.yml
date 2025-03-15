@@ -21,6 +21,11 @@ spring:
       enabled: true
       max-file-size: 5MB
       max-request-size: 6MB
+  redis:
+    host: 192.168.200.146
+    port: 6379
+    password: 123456
+    database: 0
   #数据源配置
   datasource:
     druid:
@@ -65,3 +70,6 @@ zzyl:
       accessKeyId: LTAI5tC1vkmbWw7sYbDAmt2c
       accessKeySecret: 762i2xWVlDEF1dJTS0Ne1ejIqVNuym
       bucketName: web-hmtest001
+  wechat:
+    appId: wx5ec14963469fed5e
+    appSecret: 2bf370b36c52fcb95ff5c4b348b429d9

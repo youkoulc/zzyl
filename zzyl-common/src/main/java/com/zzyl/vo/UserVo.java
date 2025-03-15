@@ -78,4 +78,16 @@ public class UserVo extends BaseVo {
 
     private String dataState;
 
+    /**
+     * 部门名称
+     */
+    private String deptName;
+
+    /**
+     * 岗位名称
+     */
+    private String postName;
+
+    private List<RoleVo> roleList;
+    private Set<String> roleNames;
 }
